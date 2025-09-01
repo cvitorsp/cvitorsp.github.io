@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Briefing de Projeto - JV.Criativo</title>
     
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+    <!-- Estilos Globais e do Formulário -->
     <style>
         :root {
             --background: #0A0E14;
@@ -80,13 +83,41 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(249, 115, 22, 0.2);
         }
-        .toast-notification {
-            transition: opacity 0.5s, transform 0.5s;
+        
+        /* Estilos da tela de sucesso e animação */
+        #success-overlay {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+        }
+        #success-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        #rocket {
+            transform: translateY(80px);
+            opacity: 0;
+            transition: transform 1.5s cubic-bezier(0.6, -0.28, 0.74, 0.05), opacity 0.8s ease-out;
+        }
+        #success-overlay.visible #rocket {
+            transform: translateY(-200px);
+            opacity: 1;
+        }
+        #success-overlay.visible .success-message {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.5s;
+        }
+        .success-message {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
         }
     </style>
 </head>
 <body class="bg-slate-950">
 
+    <!-- Cabeçalho -->
     <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-20 bg-slate-900/80 backdrop-blur-lg shadow-xl">
         <div class="container mx-auto px-6 flex justify-between items-center h-full">
             <a href="index.html" class="flex items-center gap-3">
@@ -111,6 +142,7 @@
                     </p>
                 </div>
 
+                <!-- Barra de Progresso -->
                 <div class="mb-8">
                     <div class="flex justify-between mb-2 text-sm font-medium text-slate-300">
                         <span id="step-counter">Etapa 1 de 4</span>
@@ -121,10 +153,10 @@
                     </div>
                 </div>
 
-                <form id="briefing-form" action="https://formsubmit.co/cvitorsp@gmail.com" method="POST" class="bg-slate-900 border border-slate-800 rounded-xl p-6 sm:p-10 shadow-2xl">
-                    <input type="hidden" name="_next" value="https://cvitorsp.github.io/vitor"> <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_subject" value="🚀 Novo Briefing de Projeto Recebido!">
+                <!-- Formulário -->
+                <form id="briefing-form" action="https://formspree.io/f/xdkldlbk" method="POST" class="bg-slate-900 border border-slate-800 rounded-xl p-6 sm:p-10 shadow-2xl">
                     
+                    <!-- Etapa 1: Sobre Você -->
                     <fieldset class="form-step active-step">
                         <h2 class="text-2xl font-bold mb-6 text-white border-l-4 border-orange-500 pl-4">Sobre Você e Sua Empresa</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -147,6 +179,7 @@
                         </div>
                     </fieldset>
 
+                    <!-- Etapa 2: Sobre o Projeto -->
                     <fieldset class="form-step hidden">
                         <h2 class="text-2xl font-bold mb-6 text-white border-l-4 border-orange-500 pl-4">Sobre o Projeto</h2>
                         <div class="space-y-6">
@@ -168,6 +201,7 @@
                         </div>
                     </fieldset>
 
+                    <!-- Etapa 3: Estilo e Preferências -->
                     <fieldset class="form-step hidden">
                         <h2 class="text-2xl font-bold mb-6 text-white border-l-4 border-orange-500 pl-4">Estilo e Preferências</h2>
                         <div class="space-y-6">
@@ -195,6 +229,7 @@
                         </div>
                     </fieldset>
 
+                    <!-- Etapa 4: Detalhes Finais -->
                     <fieldset class="form-step hidden">
                         <h2 class="text-2xl font-bold mb-6 text-white border-l-4 border-orange-500 pl-4">Detalhes Finais</h2>
                          <div class="space-y-6">
@@ -220,25 +255,39 @@
                         </div>
                     </fieldset>
 
+                    <!-- Botões de Navegação -->
                     <div class="mt-10 flex justify-between items-center">
                         <button type="button" id="prev-btn" class="px-6 py-2 border-2 border-slate-600 text-slate-300 font-bold rounded-lg hover:bg-slate-700 transition-colors hidden">Anterior</button>
                         <button type="button" id="next-btn" class="ml-auto px-6 py-2 bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold rounded-lg shadow-lg hover:shadow-orange-500/50 transition-all duration-300 transform hover:scale-105">Próximo</button>
-                        <button type="submit" id="submit-btn" class="ml-auto px-6 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-lg shadow-lg hover:shadow-green-500/50 transition-all duration-300 transform hover:scale-105 hidden">🚀 Enviar Briefing</button>
+                        <button type="submit" id="submit-btn" class="ml-auto px-6 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-lg shadow-lg hover:shadow-green-500/50 transition-all duration-300 transform hover:scale-105 hidden items-center justify-center">
+                            🚀 Enviar Briefing
+                        </button>
                     </div>
                 </form>
             </div>
         </section>
     </main>
     
+    <!-- Rodapé -->
     <footer class="bg-slate-900 border-t border-slate-800 py-8 px-6">
         <div class="container mx-auto text-center">
              <p class="text-slate-500 text-sm">© 2025 JV.Criativo. Todos os direitos reservados.</p>
         </div>
     </footer>
     
-     <div id="toast" class="toast-notification fixed bottom-10 right-10 z-[100] p-4 rounded-lg shadow-2xl bg-green-600 text-white opacity-0 transform translate-y-10">
-        Briefing enviado com sucesso! Entrarei em contato em breve.
+    <!-- TELA DE SUCESSO - CORREÇÃO: Removido a classe 'hidden' daqui -->
+    <div id="success-overlay" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-slate-950/95 backdrop-blur-sm">
+        <svg id="rocket" class="w-24 h-24 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.3.05-3.18-.65-.87-2.2-.86-3.18.05L4.5 16.5z"></path>
+            <path d="M16 3.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.3.05-3.18-.65-.87-2.2-.86-3.18.05L16 3.5z"></path>
+            <path d="M12.5 14.5L9 18l-1.5-1.5 3.5-3.5-1.5-1.5 3.5-3.5-1.5-1.5 3.5-3.5L18 9l-3.5 3.5 1.5 1.5-3.5 3.5 1.5 1.5-3.5 3.5z"></path>
+        </svg>
+        <div class="text-center mt-6 success-message">
+            <h2 class="text-3xl font-black text-white tracking-tight">Briefing Enviado!</h2>
+            <p class="text-slate-400 mt-2 text-lg">Obrigado por iniciar seu projeto comigo. <br> Entrarei em contato em breve!</p>
+        </div>
     </div>
+
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -250,24 +299,20 @@
         const stepCounter = document.getElementById('step-counter');
         const progressPercent = document.getElementById('progress-percent');
         const form = document.getElementById('briefing-form');
-        const toast = document.getElementById('toast');
+        const successOverlay = document.getElementById('success-overlay');
 
         let currentStep = 0;
         const totalSteps = formSteps.length;
 
         function updateFormStep() {
-            // Esconde todos os steps
             formSteps.forEach(step => step.classList.add('hidden'));
-            // Mostra o step atual
             formSteps[currentStep].classList.remove('hidden');
 
-            // Atualiza a barra de progresso
             const progress = ((currentStep + 1) / totalSteps) * 100;
             progressBar.style.width = `${progress}%`;
             stepCounter.textContent = `Etapa ${currentStep + 1} de ${totalSteps}`;
             progressPercent.textContent = `${Math.round(progress)}%`;
 
-            // Controla a visibilidade dos botões
             prevBtn.classList.toggle('hidden', currentStep === 0);
             nextBtn.classList.toggle('hidden', currentStep === totalSteps - 1);
             submitBtn.classList.toggle('hidden', currentStep !== totalSteps - 1);
@@ -278,10 +323,10 @@
             let isValid = true;
             currentStepFields.forEach(field => {
                 if (!field.value.trim()) {
-                    field.style.borderColor = 'var(--secondary)'; // Borda vermelha se inválido
+                    field.style.borderColor = 'var(--secondary)';
                     isValid = false;
                 } else {
-                    field.style.borderColor = '#334155'; // Volta para a cor normal
+                    field.style.borderColor = '#334155';
                 }
             });
             return isValid;
@@ -305,6 +350,16 @@
 
         form.addEventListener('submit', (e) => {
              e.preventDefault();
+             const originalButtonContent = submitBtn.innerHTML;
+             submitBtn.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Enviando...
+             `;
+             submitBtn.disabled = true;
+
              fetch(form.action, {
                 method: 'POST',
                 body: new FormData(form),
@@ -312,16 +367,28 @@
             })
             .then(response => {
                 if (response.ok) {
-                    toast.classList.remove('opacity-0', 'translate-y-10');
+                    // CORREÇÃO: Apenas adiciona a classe 'visible' para iniciar a animação
+                    successOverlay.classList.add('visible');
+                    
+                    // Redireciona após a animação ter tempo para tocar
                     setTimeout(() => {
-                        // Opcional: redirecionar para uma página de "obrigado"
-                        // window.location.href = form.querySelector('input[name="_next"]').value;
-                    }, 3000);
+                        window.location.href = 'index.html';
+                    }, 4000); 
                 } else {
-                    alert('Ocorreu um erro. Tente novamente.');
+                    response.json().then(data => {
+                        if (data.errors) {
+                            alert(data.errors.map(error => error.message).join(", "));
+                        } else {
+                            alert('Ocorreu um erro ao enviar o briefing. Tente novamente.');
+                        }
+                    });
+                    submitBtn.innerHTML = originalButtonContent;
+                    submitBtn.disabled = false;
                 }
             }).catch(error => {
                 alert('Ocorreu um erro de conexão. Tente novamente.');
+                submitBtn.innerHTML = originalButtonContent;
+                submitBtn.disabled = false;
             });
         });
 
@@ -331,3 +398,4 @@
     </script>
 </body>
 </html>
+
