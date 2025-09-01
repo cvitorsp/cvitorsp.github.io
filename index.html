@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CVitorSP - Portfólio de Designer Gráfico</title>
     
-    <!-- Tailwind CSS para utilitários de estilo rápidos -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- Estilos Globais e Animações -->
     <style>
         :root {
             --background: #0A0E14;
@@ -25,7 +22,7 @@
         }
 
         html {
-           scroll-behavior: smooth;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -79,7 +76,6 @@
 </head>
 <body class="bg-slate-950">
 
-    <!-- Preloader -->
     <div id="preloader" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-slate-950 transition-opacity duration-700">
         <div class="flex items-center gap-4">
             <img src="https://i.imgur.com/N7Pua0N.png" alt="JV.Criativo Logo" class="h-16 w-16"/>
@@ -91,7 +87,6 @@
         <p class="mt-4 text-lg text-slate-400 tracking-wider">Carregando Experiência...</p>
     </div>
 
-    <!-- Cabeçalho -->
     <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-24">
         <div class="container mx-auto px-6 flex justify-between items-center h-full">
             <a href="#inicio" class="flex items-center gap-3">
@@ -104,13 +99,15 @@
                 <a href="#portfolio" class="nav-link relative px-4 py-2 text-sm font-medium text-slate-300 hover:text-orange-400 transition-colors">Portfólio</a>
                 <a href="#inspiracoes" class="nav-link relative px-4 py-2 text-sm font-medium text-slate-300 hover:text-orange-400 transition-colors">Inspirações</a>
                 <a href="#contato" class="nav-link relative px-4 py-2 text-sm font-medium text-slate-300 hover:text-orange-400 transition-colors">Contato</a>
+                <a href="briefing.html" class="ml-4 px-5 py-2 text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-red-500 rounded-md shadow-lg hover:shadow-orange-500/40 transition-all duration-300 transform hover:scale-105">
+                    Iniciar Projeto
+                </a>
             </nav>
             <button id="mobile-menu-btn" class="md:hidden z-50">
                 <svg id="menu-icon-open" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
                 <svg id="menu-icon-close" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
         </div>
-        <!-- Menu Mobile -->
         <div id="mobile-menu" class="md:hidden absolute top-0 left-0 w-full bg-slate-900/95 backdrop-blur-lg pt-24 transform -translate-y-full transition-transform duration-300 ease-in-out">
             <nav class="flex flex-col items-center gap-4 p-6">
                 <a href="#inicio" class="nav-link-mobile w-full text-center py-3 text-lg font-medium rounded-lg">Início</a>
@@ -118,21 +115,19 @@
                 <a href="#portfolio" class="nav-link-mobile w-full text-center py-3 text-lg font-medium rounded-lg">Portfólio</a>
                 <a href="#inspiracoes" class="nav-link-mobile w-full text-center py-3 text-lg font-medium rounded-lg">Inspirações</a>
                 <a href="#contato" class="nav-link-mobile w-full text-center py-3 text-lg font-medium rounded-lg">Contato</a>
+                 <a href="briefing.html" class="mt-4 w-full text-center py-3 text-lg font-bold text-white bg-gradient-to-r from-orange-500 to-red-500 rounded-lg">Iniciar Projeto</a>
             </nav>
         </div>
     </header>
 
     <main>
-        <!-- Seção Hero -->
         <section id="inicio" class="min-h-screen flex items-center justify-center text-center px-4 relative overflow-hidden">
-             <!-- Efeitos de gradiente no fundo -->
-            <div class="absolute top-[-10%] left-[-10%] w-[400px] h-[400px] bg-orange-500/10 rounded-full filter blur-3xl animate-pulse"></div>
+             <div class="absolute top-[-10%] left-[-10%] w-[400px] h-[400px] bg-orange-500/10 rounded-full filter blur-3xl animate-pulse"></div>
             <div class="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-red-500/10 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
 
             <div class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-center" style="background-image: radial-gradient(ellipse 80% 50% at 50% -20%,rgba(120,119,198,0.1),hsla(0,0%,100%,0));"></div>
             <div class="absolute inset-0 bg-slate-950/50"></div>
         
-            <!-- Elementos flutuantes decorativos -->
             <div class="decorative-shape absolute top-[15%] left-[10%] w-8 h-8 text-orange-500 opacity-30"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg></div>
             <div class="decorative-shape absolute top-[25%] right-[12%] w-10 h-10 text-red-500 opacity-30"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.7.8 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg></div>
             <div class="decorative-shape absolute bottom-[20%] left-[20%] w-9 h-9 text-orange-400 opacity-30"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle><circle cx="10.5" cy="14.5" r=".5" fill="currentColor"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.668 0-.437-.18-.835-.437-1.108-.257-.273-.666-.698-.666-1.672 0-1.112.512-1.674 1.284-2.173.131-.086.264-.173.397-.26.492-.32.984-.64 1.476-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96l.63-.42c1.26-.84 2.1-2.24 2.1-3.84C22 3.96 20.48 2 18 2c-1.55 0-2.93.79-3.75 2Z"></path></svg></div>
@@ -154,7 +149,6 @@
             </div>
         </section>
 
-        <!-- Seção Sobre -->
         <section id="sobre" class="py-24 sm:py-32 bg-slate-900">
             <div class="container mx-auto px-6">
                  <div class="text-center mb-16">
@@ -180,20 +174,19 @@
                              <div class="card-hover bg-slate-800/50 p-6 rounded-xl text-center border border-slate-700">
                                 <p class="text-3xl font-bold text-white">100%</p><p class="text-sm text-slate-400">Paixão por Design</p>
                             </div>
-                         </div>
+                        </div>
                         <h3 class="text-2xl font-bold text-white mb-6">Meus Serviços:</h3>
                          <div class="flex flex-wrap gap-4">
                             <span class="flex items-center gap-3 bg-slate-800 px-4 py-2 rounded-full"><span class="h-3 w-3 rounded-full bg-gradient-to-r from-orange-500 to-red-500"></span>Social Media</span>
                             <span class="flex items-center gap-3 bg-slate-800 px-4 py-2 rounded-full"><span class="h-3 w-3 rounded-full bg-gradient-to-r from-orange-500 to-red-500"></span>Criação de Logo</span>
                             <span class="flex items-center gap-3 bg-slate-800 px-4 py-2 rounded-full"><span class="h-3 w-3 rounded-full bg-gradient-to-r from-orange-500 to-red-500"></span>Arte & Ilustração</span>
                             <span class="flex items-center gap-3 bg-slate-800 px-4 py-2 rounded-full"><span class="h-3 w-3 rounded-full bg-gradient-to-r from-orange-500 to-red-500"></span>Pacote de Artes</span>
-                         </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Seção Portfólio -->
         <section id="portfolio" class="py-24 sm:py-32">
              <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
@@ -210,7 +203,6 @@
              </div>
         </section>
         
-        <!-- Seção Inspirações -->
         <section id="inspiracoes" class="py-24 sm:py-32 bg-slate-900">
              <div class="container mx-auto px-6">
                  <div class="text-center mb-12">
@@ -243,15 +235,24 @@
              </div>
         </section>
 
-        <!-- Seção Contato -->
         <section id="contato" class="py-24 sm:py-32">
              <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-4xl md:text-5xl font-black tracking-tighter gradient-text">Vamos Criar Algo Incrível Juntos?</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-400">
+                        Pronto para começar? Preencha o briefing detalhado do seu projeto ou, se preferir, envie uma mensagem rápida abaixo.
+                    </p>
+                    <a href="briefing.html" class="mt-8 inline-block px-10 py-4 bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold rounded-lg shadow-lg hover:shadow-orange-500/50 transition-all duration-300 transform hover:scale-105">
+                        Preencher Briefing Detalhado
+                    </a>
                 </div>
                 <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 bg-slate-900 border border-slate-800 p-8 rounded-xl">
                     <div class="flex flex-col justify-center gap-6">
                          <div>
+                            <h3 class="font-bold text-lg text-white">Mensagem Rápida</h3>
+                            <p class="text-slate-500 text-sm mb-4">Para dúvidas ou um primeiro contato.</p>
+                        </div>
+                          <div>
                             <h3 class="font-bold text-lg text-white">Email</h3>
                             <a href="mailto:cvitorsp@gmail.com" class="text-slate-400 hover:text-orange-400 transition-colors">cvitorsp@gmail.com</a>
                         </div>
@@ -270,9 +271,7 @@
                         <input type="tel" name="whatsapp" placeholder="Seu WhatsApp (Opcional)" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 mb-4 focus:ring-2 focus:ring-orange-500 outline-none">
                         <textarea name="message" placeholder="Sua Mensagem" required rows="4" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 mb-4 focus:ring-2 focus:ring-orange-500 outline-none resize-none"></textarea>
                         
-                        <!-- Configurações do FormSubmit -->
-                        <input type="hidden" name="_next" value="https://cvitorsp.github.io/vitor"> <!-- MUDE ISSO -->
-                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_next" value="https://cvitorsp.github.io/vitor"> <input type="hidden" name="_captcha" value="false">
                         <input type="hidden" name="_subject" value="Novo Contato do Portfólio!">
 
                         <button type="submit" class="w-full p-3 bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold rounded-lg hover:opacity-90 transition-opacity">Enviar Mensagem</button>
@@ -282,7 +281,6 @@
         </section>
     </main>
     
-    <!-- Rodapé -->
     <footer class="bg-slate-900 border-t border-slate-800 pt-16 pb-8 px-6">
         <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
             <div>
@@ -305,7 +303,7 @@
                  <h3 class="font-bold text-white mb-4">Conecte-se</h3>
                  <div class="flex justify-center md:justify-start gap-4 mb-4">
                      <a href="https://instagram.com/jv.criativo" target="_blank" class="text-slate-400 hover:text-orange-400"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
-                 </div>
+                </div>
                  <a href="mailto:cvitorsp@gmail.com" class="block text-slate-400 hover:text-orange-400 transition-colors text-sm">cvitorsp@gmail.com</a>
                  <a href="https://wa.me/5511915622409" target="_blank" class="block text-slate-400 hover:text-orange-400 transition-colors text-sm">(11) 91562-2409</a>
             </div>
@@ -315,12 +313,10 @@
         </div>
     </footer>
 
-    <!-- Botão Voltar ao Topo -->
     <a href="#inicio" id="scroll-to-top" class="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-orange-500 text-white shadow-lg hidden transition-opacity">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" /></svg>
     </a>
     
-    <!-- Notificação de Toast -->
     <div id="toast" class="toast-notification fixed bottom-10 right-10 z-[100] p-4 rounded-lg shadow-2xl bg-green-600 text-white opacity-0 transform translate-y-10">
         Mensagem enviada com sucesso!
     </div>
@@ -421,63 +417,67 @@
         // --- Contact Form ---
         const contactForm = document.getElementById('contact-form');
         const toast = document.getElementById('toast');
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const formData = new FormData(contactForm);
-            
-            // Substitua 'SEU-DOMINIO.github.io' pelo seu link real do GitHub Pages
-            const nextUrl = contactForm.querySelector('input[name="_next"]');
-            if (nextUrl && location.hostname) {
-                 nextUrl.value = `https://${location.hostname}`;
-            }
+        if (contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const formData = new FormData(contactForm);
+                
+                const nextUrl = contactForm.querySelector('input[name="_next"]');
+                if (nextUrl && location.hostname) {
+                     nextUrl.value = `https://${location.hostname}${location.pathname.replace('index.html', '')}`;
+                }
 
-            fetch(contactForm.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    toast.classList.remove('opacity-0', 'translate-y-10');
-                    setTimeout(() => {
-                        toast.classList.add('opacity-0', 'translate-y-10');
-                    }, 3000);
-                    contactForm.reset();
-                } else {
-                     response.json().then(data => {
-                        if (data.error === "Enable reCAPTCHA") {
-                             alert("Por favor, ative seu formulário. Verifique seu e-mail para a mensagem de ativação do FormSubmit.");
-                        } else {
-                             alert('Ocorreu um erro ao enviar a mensagem. Tente novamente.');
-                        }
-                     });
-                }
-            })
-            .catch(error => {
-                alert('Ocorreu um erro ao enviar a mensagem. Tente novamente.');
-                console.error('Fetch Error:', error);
+                fetch(contactForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        toast.classList.remove('opacity-0', 'translate-y-10');
+                        setTimeout(() => {
+                            toast.classList.add('opacity-0', 'translate-y-10');
+                        }, 3000);
+                        contactForm.reset();
+                    } else {
+                         response.json().then(data => {
+                             if (data.error === "Enable reCAPTCHA") {
+                                 alert("Por favor, ative seu formulário. Verifique seu e-mail para a mensagem de ativação do FormSubmit.");
+                             } else {
+                                 alert('Ocorreu um erro ao enviar a mensagem. Tente novamente.');
+                             }
+                         });
+                    }
+                })
+                .catch(error => {
+                    alert('Ocorreu um erro ao enviar a mensagem. Tente novamente.');
+                    console.error('Fetch Error:', error);
+                });
             });
-        });
+        }
 
         // --- Hero Section Parallax Effect ---
         const heroContent = document.getElementById('hero-content');
         const decorativeShapes = document.querySelectorAll('.decorative-shape');
-        document.getElementById('inicio').addEventListener('mousemove', (e) => {
-            const { clientX, clientY, currentTarget } = e;
-            const { offsetWidth, offsetHeight } = currentTarget;
-            const xPos = (clientX / offsetWidth - 0.5) * 2;
-            const yPos = (clientY / offsetHeight - 0.5) * 2;
+        const heroSection = document.getElementById('inicio');
+        if (heroSection) {
+            heroSection.addEventListener('mousemove', (e) => {
+                const { clientX, clientY, currentTarget } = e;
+                const { offsetWidth, offsetHeight } = currentTarget;
+                const xPos = (clientX / offsetWidth - 0.5) * 2;
+                const yPos = (clientY / offsetHeight - 0.5) * 2;
 
-            requestAnimationFrame(() => {
-                if(heroContent) heroContent.style.transform = `translate(${xPos * -10}px, ${yPos * -10}px)`;
-                decorativeShapes.forEach((shape, i) => {
-                    const speed = (i + 1) * 5;
-                    shape.style.transform = `translate(${xPos * speed}px, ${yPos * speed}px)`;
+                requestAnimationFrame(() => {
+                    if(heroContent) heroContent.style.transform = `translate(${xPos * -10}px, ${yPos * -10}px)`;
+                    decorativeShapes.forEach((shape, i) => {
+                        const speed = (i + 1) * 5;
+                        shape.style.transform = `translate(${xPos * speed}px, ${yPos * speed}px)`;
+                    });
                 });
             });
-        });
+        }
     });
     </script>
 
