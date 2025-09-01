@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Briefing de Projeto - JV.Criativo</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --background: #0A0E14;
+            --surface: #11151C;
+            --primary: #F97316;
+            --secondary: #EF4444;
+            --text-primary: #F1F5F9;
+            --text-secondary: #94A3B8;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+            border-radius: 10px;
+            border: 3px solid #0a0a0a;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-animation 4s ease infinite;
+        }
+        
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Estilos customizados para inputs */
+        .form-input {
+            background-color: #1E293B; /* slate-800 */
+            border: 1px solid #334155; /* slate-700 */
+            color: var(--text-primary);
+            transition: all 0.2s ease-in-out;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.4);
+        }
+
+        /* Estilos para Radio/Checkbox customizados */
+        .custom-radio-label {
+            transition: all 0.2s ease-in-out;
+            border: 2px solid #334155;
+        }
+        input[type="radio"]:checked + .custom-radio-label,
+        input[type="checkbox"]:checked + .custom-radio-label {
+            border-color: var(--primary);
+            background-color: rgba(249, 115, 22, 0.1);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(249, 115, 22, 0.2);
+        }
+        .toast-notification {
+            transition: opacity 0.5s, transform 0.5s;
+        }
+    </style>
+</head>
+<body class="bg-slate-950">
+
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-20 bg-slate-900/80 backdrop-blur-lg shadow-xl">
+        <div class="container mx-auto px-6 flex justify-between items-center h-full">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="https://i.imgur.com/N7Pua0N.png" alt="JV.Criativo Logo" id="navbar-logo" class="h-10"/>
+                <span id="navbar-text" class="text-slate-100 font-black tracking-tighter text-2xl hidden sm:inline">JV.Criativo</span>
+            </a>
+            <nav>
+                <a href="index.html#contato" class="px-5 py-2 text-sm font-bold border-2 border-orange-400 text-orange-300 rounded-md hover:bg-orange-400/10 transition-colors">
+                    Fale Comigo
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="pt-32 pb-20">
+        <section id="briefing" class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl md:text-5xl font-black tracking-tighter gradient-text">Vamos Começar o Seu Projeto?</h1>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-400">
+                        Preencha as etapas abaixo para me dar uma visão clara das suas necessidades. Quanto mais detalhes, melhor!
+                    </p>
+                </div>
+
+                <div class="mb-8">
+                    <div class="flex justify-between mb-2 text-sm font-medium text-slate-300">
+                        <span id="step-counter">Etapa 1 de 4</span>
+                        <span id="progress-percent">25%</span>
+                    </div>
+                    <div class="w-full bg-slate-700 rounded-full h-2.5">
+                        <div id="progress-bar" class="bg-gradient-to-r from-orange-500 to-red-500 h-2.5 rounded-full transition-all duration-500" style="width: 25%"></div>
+                    </div>
+                </div>
+
+                <form id="briefing-form" action="https://formsubmit.co/cvitorsp@gmail.com" method="POST" class="bg-slate-900 border border-slate-800 rounded-xl p-6 sm:p-10 shadow-2xl">
+                    <input type="hidden" name="_next" value="https://cvitorsp.github.io/vitor"> <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_subject" value="🚀 Novo Briefing de Projeto Recebido!">
+                    
+                    <fieldset class="form-step active-step">
+                        <h2 class="text-2xl font-bold mb-6 text-white border-l-4 border-orange-500 pl-4">Sobre Você e Sua Empresa</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block mb-2 text-sm font-medium text-slate-300">Seu Nome Completo</label>
+                                <input type="text" name="Nome" id="name" class="form-input w-full p-3 rounded-lg" placeholder="João da Silva" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block mb-2 text-sm font-medium text-slate-300">Seu Melhor Email</label>
+                                <input type="email" name="Email" id="email" class="form-input w-full p-3 rounded-lg" placeholder="joao.silva@email.com" required>
+                            </div>
+                             <div>
+                                <label for="company" class="block mb-2 text-sm font-medium text-slate-300">Nome da Empresa/Projeto</label>
+                                <input type="text" name="Empresa" id="company" class="form-input w-full p-3 rounded-lg" placeholder="Ex: Silva's Café">
+                            </div>
+                            <div>
+                                <label for="segment" class="block mb-2 text-sm font-medium text-slate-300">Segmento de Mercado</label>
+                                <input type="text" name="Segmento" id="segment" class="form-input w-full p-3 rounded-lg" placeholder="Ex: Cafeteria, Tecnologia, Moda">
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="form-step hidden">
+                        <h2 class="text-2xl font-bold mb-6 text-white border-l-4 border-orange-500 pl-4">Sobre o Projeto</h2>
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block mb-3 text-sm font-medium text-slate-300">Qual serviço você precisa?</label>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                    <label><input type="radio" name="Serviço" value="Logo" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Logo</span></label>
+                                    <label><input type="radio" name="Serviço" value="Identidade Visual" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Identidade Visual</span></label>
+                                    <label><input type="radio" name="Serviço" value="Social Media" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Social Media</span></label>
+                                    <label><input type="radio" name="Serviço" value="Ilustração" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Ilustração</span></label>
+                                    <label><input type="radio" name="Serviço" value="Embalagem" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Embalagem</span></label>
+                                    <label><input type="radio" name="Serviço" value="Outro" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Outro</span></label>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="business-description" class="block mb-2 text-sm font-medium text-slate-300">Descreva seu negócio e o que o torna único.</label>
+                                <textarea name="Descrição do Negócio" id="business-description" rows="5" class="form-input w-full p-3 rounded-lg resize-none" placeholder="Conte-me a história, os valores e os diferenciais do seu projeto..."></textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="form-step hidden">
+                        <h2 class="text-2xl font-bold mb-6 text-white border-l-4 border-orange-500 pl-4">Estilo e Preferências</h2>
+                        <div class="space-y-6">
+                           <div>
+                                <label class="block mb-3 text-sm font-medium text-slate-300">Quais palavras descrevem o estilo que você busca? (Marque quantas quiser)</label>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                                    <label><input type="checkbox" name="Estilo[]" value="Moderno" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Moderno</span></label>
+                                    <label><input type="checkbox" name="Estilo[]" value="Minimalista" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Minimalista</span></label>
+                                    <label><input type="checkbox" name="Estilo[]" value="Clássico" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Clássico</span></label>
+                                    <label><input type="checkbox" name="Estilo[]" value="Divertido" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Divertido</span></label>
+                                    <label><input type="checkbox" name="Estilo[]" value="Sofisticado" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Sofisticado</span></label>
+                                    <label><input type="checkbox" name="Estilo[]" value="Robusto" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Robusto</span></label>
+                                    <label><input type="checkbox" name="Estilo[]" value="Orgânico" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Orgânico</span></label>
+                                    <label><input type="checkbox" name="Estilo[]" value="Tech" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Tech</span></label>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="colors" class="block mb-2 text-sm font-medium text-slate-300">Quais cores você gostaria de ver (ou evitar)?</label>
+                                <input type="text" name="Cores" id="colors" class="form-input w-full p-3 rounded-lg" placeholder="Ex: Gosto de azul e verde, mas não gosto de amarelo.">
+                            </div>
+                            <div>
+                                <label for="references" class="block mb-2 text-sm font-medium text-slate-300">Links de referências ou inspirações (concorrentes, sites, etc.)</label>
+                                <textarea name="Referências" id="references" rows="4" class="form-input w-full p-3 rounded-lg resize-none" placeholder="Cole aqui os links que você gosta (um por linha)."></textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="form-step hidden">
+                        <h2 class="text-2xl font-bold mb-6 text-white border-l-4 border-orange-500 pl-4">Detalhes Finais</h2>
+                         <div class="space-y-6">
+                            <div>
+                                <label for="deadline" class="block mb-2 text-sm font-medium text-slate-300">Existe um prazo para este projeto?</label>
+                                <input type="text" name="Prazo" id="deadline" class="form-input w-full p-3 rounded-lg" placeholder="Ex: Sim, para o final do próximo mês.">
+                            </div>
+                            <div>
+                                <label for="budget" class="block mb-2 text-sm font-medium text-slate-300">Qual é a faixa de orçamento que você está considerando? (Opcional)</label>
+                                <select name="Orçamento" id="budget" class="form-input w-full p-3 rounded-lg appearance-none">
+                                    <option value="">Selecione uma faixa</option>
+                                    <option value="Até R$500">Até R$500</option>
+                                    <option value="R$500 - R$1.500">R$500 - R$1.500</option>
+                                    <option value="R$1.500 - R$3.000">R$1.500 - R$3.000</option>
+                                    <option value="Acima de R$3.000">Acima de R$3.000</option>
+                                    <option value="Ainda não definido">Ainda não definido</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="additional-info" class="block mb-2 text-sm font-medium text-slate-300">Algo mais que eu deva saber?</label>
+                                <textarea name="Informações Adicionais" id="additional-info" rows="5" class="form-input w-full p-3 rounded-lg resize-none" placeholder="Qualquer detalhe extra é bem-vindo!"></textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="mt-10 flex justify-between items-center">
+                        <button type="button" id="prev-btn" class="px-6 py-2 border-2 border-slate-600 text-slate-300 font-bold rounded-lg hover:bg-slate-700 transition-colors hidden">Anterior</button>
+                        <button type="button" id="next-btn" class="ml-auto px-6 py-2 bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold rounded-lg shadow-lg hover:shadow-orange-500/50 transition-all duration-300 transform hover:scale-105">Próximo</button>
+                        <button type="submit" id="submit-btn" class="ml-auto px-6 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-lg shadow-lg hover:shadow-green-500/50 transition-all duration-300 transform hover:scale-105 hidden">🚀 Enviar Briefing</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="bg-slate-900 border-t border-slate-800 py-8 px-6">
+        <div class="container mx-auto text-center">
+             <p class="text-slate-500 text-sm">© 2025 JV.Criativo. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+    
+     <div id="toast" class="toast-notification fixed bottom-10 right-10 z-[100] p-4 rounded-lg shadow-2xl bg-green-600 text-white opacity-0 transform translate-y-10">
+        Briefing enviado com sucesso! Entrarei em contato em breve.
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const formSteps = document.querySelectorAll('.form-step');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const stepCounter = document.getElementById('step-counter');
+        const progressPercent = document.getElementById('progress-percent');
+        const form = document.getElementById('briefing-form');
+        const toast = document.getElementById('toast');
+
+        let currentStep = 0;
+        const totalSteps = formSteps.length;
+
+        function updateFormStep() {
+            // Esconde todos os steps
+            formSteps.forEach(step => step.classList.add('hidden'));
+            // Mostra o step atual
+            formSteps[currentStep].classList.remove('hidden');
+
+            // Atualiza a barra de progresso
+            const progress = ((currentStep + 1) / totalSteps) * 100;
+            progressBar.style.width = `${progress}%`;
+            stepCounter.textContent = `Etapa ${currentStep + 1} de ${totalSteps}`;
+            progressPercent.textContent = `${Math.round(progress)}%`;
+
+            // Controla a visibilidade dos botões
+            prevBtn.classList.toggle('hidden', currentStep === 0);
+            nextBtn.classList.toggle('hidden', currentStep === totalSteps - 1);
+            submitBtn.classList.toggle('hidden', currentStep !== totalSteps - 1);
+        }
+
+        function validateStep(stepIndex) {
+            const currentStepFields = formSteps[stepIndex].querySelectorAll('[required]');
+            let isValid = true;
+            currentStepFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.style.borderColor = 'var(--secondary)'; // Borda vermelha se inválido
+                    isValid = false;
+                } else {
+                    field.style.borderColor = '#334155'; // Volta para a cor normal
+                }
+            });
+            return isValid;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (validateStep(currentStep) && currentStep < totalSteps - 1) {
+                currentStep++;
+                updateFormStep();
+                window.scrollTo(0, 0);
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 0) {
+                currentStep--;
+                updateFormStep();
+                window.scrollTo(0, 0);
+            }
+        });
+
+        form.addEventListener('submit', (e) => {
+             e.preventDefault();
+             fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: { 'Accept': 'application/json' }
+            })
+            .then(response => {
+                if (response.ok) {
+                    toast.classList.remove('opacity-0', 'translate-y-10');
+                    setTimeout(() => {
+                        // Opcional: redirecionar para uma página de "obrigado"
+                        // window.location.href = form.querySelector('input[name="_next"]').value;
+                    }, 3000);
+                } else {
+                    alert('Ocorreu um erro. Tente novamente.');
+                }
+            }).catch(error => {
+                alert('Ocorreu um erro de conexão. Tente novamente.');
+            });
+        });
+
+        // Inicializa o formulário
+        updateFormStep();
+    });
+    </script>
+</body>
+</html>
