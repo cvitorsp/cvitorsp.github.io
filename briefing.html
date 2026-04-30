@@ -1,244 +1,336 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Briefing de Projeto - JV.Criativo</title>
+    <title>Briefing de Projeto | JV.Criativo</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Inter -->
+    <!-- Tailwind Config for Custom Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fff3ec',
+                            100: '#ffe4d3',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            900: '#7c2d12',
+                            accent: '#ef4444',
+                        },
+                        dark: {
+                            900: '#050505',
+                            800: '#0a0a0a',
+                            700: '#141414',
+                            600: '#1e1e1e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Inter', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'glow-gradient': 'radial-gradient(circle at top center, rgba(249, 115, 22, 0.15) 0%, rgba(0,0,0,0) 70%)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- Estilos Globais e do Formulário -->
+    <!-- Custom CSS -->
     <style>
-        :root {
-            --background: #0A0E14;
-            --surface: #11151C;
-            --primary: #F97316;
-            --secondary: #EF4444;
-            --text-primary: #F1F5F9;
-            --text-secondary: #94A3B8;
-        }
-
-        html { scroll-behavior: smooth; }
-
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--background);
-            color: var(--text-primary);
+            background-color: #050505;
+            color: #e5e5e5;
+            cursor: none;
+            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 12px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
         ::-webkit-scrollbar-thumb {
-            background-color: var(--primary);
+            background: linear-gradient(to bottom, #f97316, #ef4444);
             border-radius: 10px;
-            border: 3px solid #0a0a0a;
         }
 
-        .gradient-text {
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
-            background-size: 200% 200%;
+        /* Custom Cursor */
+        .cursor-dot, .cursor-outline {
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .cursor-dot {
+            width: 8px; height: 8px;
+            background-color: #f97316;
+        }
+        .cursor-outline {
+            width: 40px; height: 40px;
+            border: 1px solid rgba(249, 115, 22, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s, opacity 0.3s;
+        }
+        .cursor-hover .cursor-outline {
+            width: 60px; height: 60px;
+            background-color: rgba(249, 115, 22, 0.1);
+            border-color: #f97316;
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #f97316, #ef4444, #f97316);
+            background-size: 200% auto;
+            color: transparent;
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-animation 4s ease infinite;
+            background-clip: text;
+            animation: shine 4s linear infinite;
         }
-        
-        @keyframes gradient-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        @keyframes shine { to { background-position: 200% center; } }
+
+        .glass {
+            background: rgba(20, 20, 20, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Estilos customizados para inputs */
+        /* Inputs Premium */
         .form-input {
-            background-color: #1E293B; /* slate-800 */
-            border: 1px solid #334155; /* slate-700 */
-            color: var(--text-primary);
-            transition: all 0.2s ease-in-out;
+            background-color: #0a0a0a;
+            border: 1px solid #1e1e1e;
+            color: #ffffff;
+            transition: all 0.3s ease;
         }
         .form-input:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.4);
+            border-color: #f97316;
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.15);
+            background-color: #141414;
         }
 
-        /* Estilos para Radio/Checkbox customizados */
+        /* Radio & Checkbox Cards */
         .custom-radio-label {
-            transition: all 0.2s ease-in-out;
-            border: 2px solid #334155;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid #1e1e1e;
+            background-color: #0a0a0a;
         }
         input[type="radio"]:checked + .custom-radio-label,
         input[type="checkbox"]:checked + .custom-radio-label {
-            border-color: var(--primary);
+            border-color: #f97316;
             background-color: rgba(249, 115, 22, 0.1);
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(249, 115, 22, 0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px -5px rgba(249, 115, 22, 0.3);
         }
-        
-        /* Estilos para as notificações (Toast) */
-        .toast {
-            transition: opacity 0.5s, transform 0.5s;
+        .custom-radio-label:hover {
+            border-color: rgba(249, 115, 22, 0.5);
+        }
+
+        /* Animação de transição de etapas */
+        .form-step {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .form-step.hidden {
+            display: none;
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        .form-step.active-step {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
         }
     </style>
 </head>
-<body class="bg-slate-950">
+<body class="antialiased selection:bg-brand-500 selection:text-white">
 
-    <!-- Cabeçalho -->
-    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-20 bg-slate-900/80 backdrop-blur-lg shadow-xl">
-        <div class="container mx-auto px-6 flex justify-between items-center h-full">
-            <a href="index.html" class="flex items-center gap-3">
-                <img src="https://i.imgur.com/N7Pua0N.png" alt="JV.Criativo Logo" id="navbar-logo" class="h-10"/>
-                <span id="navbar-text" class="text-slate-100 font-black tracking-tighter text-2xl hidden sm:inline">JV.Criativo</span>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- NAVBAR -->
+    <header class="fixed top-0 w-full z-50 glass py-4 border-b border-dark-700/50">
+        <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3 group hover-trigger">
+                <img src="https://i.imgur.com/N7Pua0N.png" class="w-10 h-10 group-hover:scale-110 transition-transform duration-300" alt="Logo">
+                <span class="font-display font-bold text-xl sm:text-2xl tracking-tight text-white">JV.Criativo</span>
             </a>
-            <nav>
-                <a href="index.html#contato" class="px-5 py-2 text-sm font-bold border-2 border-orange-400 text-orange-300 rounded-md hover:bg-orange-400/10 transition-colors">
-                    Fale Comigo
-                </a>
-            </nav>
+            <a href="index.html" class="px-6 py-2 text-sm font-bold text-gray-400 hover:text-white hover:bg-white/10 rounded-full transition-colors border border-transparent hover:border-white/20 hover-trigger flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                Voltar
+            </a>
         </div>
     </header>
 
-    <main class="pt-32 pb-20">
-        <section id="briefing" class="container mx-auto px-6">
+    <main class="pt-32 pb-24 relative min-h-screen">
+        <!-- Background Decorativo -->
+        <div class="absolute inset-0 bg-glow-gradient opacity-60 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none"></div>
+
+        <section class="container mx-auto px-6 relative z-10">
             <div class="max-w-4xl mx-auto">
                 <div class="text-center mb-12">
-                    <h1 class="text-4xl md:text-5xl font-black tracking-tighter gradient-text">Vamos Começar o Seu Projeto?</h1>
-                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-400">
-                        Preencha as etapas abaixo para me dar uma visão clara das suas necessidades. Quanto mais detalhes, melhor!
-                    </p>
+                    <span class="inline-block py-1.5 px-4 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-500 text-sm font-bold mb-4 tracking-widest uppercase">Briefing Criativo</span>
+                    <h1 class="font-display text-4xl md:text-5xl font-black text-white tracking-tighter mb-4">Mapeando sua <span class="text-gradient">Visão</span></h1>
+                    <p class="text-gray-400 text-lg max-w-2xl mx-auto">Preencha as etapas com o máximo de detalhes possível. Isso será a fundação do nosso projeto.</p>
                 </div>
 
                 <!-- Barra de Progresso -->
-                <div class="mb-8">
-                    <div class="flex justify-between mb-2 text-sm font-medium text-slate-300">
-                        <span id="step-counter">Etapa 1 de 4</span>
+                <div class="mb-10 glass p-6 rounded-2xl border border-dark-600">
+                    <div class="flex justify-between mb-3 text-sm font-bold text-gray-400 uppercase tracking-wider">
+                        <span id="step-counter" class="text-brand-500">Etapa 1 de 4</span>
                         <span id="progress-percent">25%</span>
                     </div>
-                    <div class="w-full bg-slate-700 rounded-full h-2.5">
-                        <div id="progress-bar" class="bg-gradient-to-r from-orange-500 to-red-500 h-2.5 rounded-full transition-all duration-500" style="width: 25%"></div>
+                    <div class="w-full bg-dark-900 rounded-full h-2 overflow-hidden border border-dark-700">
+                        <div id="progress-bar" class="bg-gradient-to-r from-brand-500 to-brand-accent h-full rounded-full transition-all duration-500 ease-out relative" style="width: 25%">
+                            <div class="absolute inset-0 bg-white/20 animate-pulse"></div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Formulário -->
-                <form id="briefing-form" action="https://formspree.io/f/xdkldlbk" method="POST" class="bg-slate-900 border border-slate-800 rounded-xl p-6 sm:p-10 shadow-2xl">
-                    
-                    <!-- Campo oculto para redirecionamento do Formspree -->
-                    <input type="hidden" name="_next" id="formspree-redirect">
+                <!-- FORMULÁRIO -->
+                <form id="briefing-form" class="glass border border-dark-600 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+                    <!-- Brilho sutil no topo do card -->
+                    <div class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-brand-500/50 to-transparent"></div>
 
-                    <!-- Etapa 1: Sobre Você -->
+                    <!-- ETAPA 1: SOBRE VOCÊ -->
                     <fieldset class="form-step active-step">
-                        <h2 class="text-2xl font-bold mb-6 text-white border-l-4 border-orange-500 pl-4">Sobre Você e Sua Empresa</h2>
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="w-12 h-12 rounded-full bg-dark-800 border border-dark-600 flex items-center justify-center text-brand-500 font-bold text-xl">1</div>
+                            <h2 class="text-3xl font-bold text-white">Sobre Você</h2>
+                        </div>
+                        
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label for="name" class="block mb-2 text-sm font-medium text-slate-300">Seu Nome Completo</label>
-                                <input type="text" name="Nome" id="name" class="form-input w-full p-3 rounded-lg" placeholder="João da Silva" required>
+                                <label for="name" class="block mb-2 text-sm font-semibold text-gray-400 uppercase tracking-wide">Nome Completo <span class="text-brand-500">*</span></label>
+                                <input type="text" name="Nome" id="name" class="form-input w-full p-4 rounded-xl hover-trigger" placeholder="João da Silva" required>
                             </div>
                             <div>
-                                <label for="email" class="block mb-2 text-sm font-medium text-slate-300">Seu Melhor Email</label>
-                                <input type="email" name="email" id="email" class="form-input w-full p-3 rounded-lg" placeholder="joao.silva@email.com" required>
-                            </div>
-                             <div>
-                                <label for="company" class="block mb-2 text-sm font-medium text-slate-300">Nome da Empresa/Projeto</label>
-                                <input type="text" name="Empresa" id="company" class="form-input w-full p-3 rounded-lg" placeholder="Ex: Silva's Café">
+                                <label for="email" class="block mb-2 text-sm font-semibold text-gray-400 uppercase tracking-wide">E-mail Profissional <span class="text-brand-500">*</span></label>
+                                <input type="email" name="email" id="email" class="form-input w-full p-4 rounded-xl hover-trigger" placeholder="joao@empresa.com" required>
                             </div>
                             <div>
-                                <label for="segment" class="block mb-2 text-sm font-medium text-slate-300">Segmento de Mercado</label>
-                                <input type="text" name="Segmento" id="segment" class="form-input w-full p-3 rounded-lg" placeholder="Ex: Cafeteria, Tecnologia, Moda">
+                                <label for="company" class="block mb-2 text-sm font-semibold text-gray-400 uppercase tracking-wide">Nome da Empresa/Projeto</label>
+                                <input type="text" name="Empresa" id="company" class="form-input w-full p-4 rounded-xl hover-trigger" placeholder="Ex: Silva's Café">
+                            </div>
+                            <div>
+                                <label for="segment" class="block mb-2 text-sm font-semibold text-gray-400 uppercase tracking-wide">Segmento de Mercado</label>
+                                <input type="text" name="Segmento" id="segment" class="form-input w-full p-4 rounded-xl hover-trigger" placeholder="Ex: Tecnologia, Games, Moda">
                             </div>
                         </div>
                     </fieldset>
 
-                    <!-- Etapa 2: Sobre o Projeto -->
+                    <!-- ETAPA 2: SOBRE O PROJETO -->
                     <fieldset class="form-step hidden">
-                        <h2 class="text-2xl font-bold mb-6 text-white border-l-4 border-orange-500 pl-4">Sobre o Projeto</h2>
-                        <div class="space-y-6">
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="w-12 h-12 rounded-full bg-dark-800 border border-dark-600 flex items-center justify-center text-brand-500 font-bold text-xl">2</div>
+                            <h2 class="text-3xl font-bold text-white">Sobre o Projeto</h2>
+                        </div>
+
+                        <div class="space-y-8">
                             <div>
-                                <label class="block mb-3 text-sm font-medium text-slate-300">Qual serviço você precisa?</label>
+                                <label class="block mb-4 text-sm font-semibold text-gray-400 uppercase tracking-wide">Qual serviço você precisa? <span class="text-brand-500">*</span></label>
                                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                                    <label><input type="radio" name="Serviço" value="Logo" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Logo</span></label>
-                                    <label><input type="radio" name="Serviço" value="Identidade Visual" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Identidade Visual</span></label>
-                                    <label><input type="radio" name="Serviço" value="Social Media" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Social Media</span></label>
-                                    <label><input type="radio" name="Serviço" value="Ilustração" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Ilustração</span></label>
-                                    <label><input type="radio" name="Serviço" value="Embalagem" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Embalagem</span></label>
-                                    <label><input type="radio" name="Serviço" value="Outro" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Outro</span></label>
+                                    <label class="hover-trigger"><input type="radio" name="Serviço" value="Web Design" class="hidden" required><span class="custom-radio-label block p-4 text-center rounded-xl font-medium cursor-pointer">Web Design</span></label>
+                                    <label class="hover-trigger"><input type="radio" name="Serviço" value="Identidade Visual" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-xl font-medium cursor-pointer">Identidade Visual</span></label>
+                                    <label class="hover-trigger"><input type="radio" name="Serviço" value="Bot Discord" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-xl font-medium cursor-pointer">Bot Discord</span></label>
+                                    <label class="hover-trigger"><input type="radio" name="Serviço" value="Pixel Art" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-xl font-medium cursor-pointer">Pixel Art / Habbo</span></label>
+                                    <label class="hover-trigger"><input type="radio" name="Serviço" value="Social Media" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-xl font-medium cursor-pointer">Social Media</span></label>
+                                    <label class="hover-trigger"><input type="radio" name="Serviço" value="Outro" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-xl font-medium cursor-pointer">Outro</span></label>
                                 </div>
                             </div>
                             <div>
-                                <label for="business-description" class="block mb-2 text-sm font-medium text-slate-300">Descreva seu negócio e o que o torna único.</label>
-                                <textarea name="Descrição do Negócio" id="business-description" rows="5" class="form-input w-full p-3 rounded-lg resize-none" placeholder="Conte-me a história, os valores e os diferenciais do seu projeto..."></textarea>
+                                <label for="business-description" class="block mb-2 text-sm font-semibold text-gray-400 uppercase tracking-wide">Descreva seu negócio e o que o torna único <span class="text-brand-500">*</span></label>
+                                <textarea name="Descrição do Negócio" id="business-description" rows="5" class="form-input w-full p-4 rounded-xl resize-none hover-trigger" placeholder="Conte-me a história, os valores e os diferenciais do seu projeto..." required></textarea>
                             </div>
                         </div>
                     </fieldset>
 
-                    <!-- Etapa 3: Estilo e Preferências -->
+                    <!-- ETAPA 3: ESTILO E PREFERÊNCIAS -->
                     <fieldset class="form-step hidden">
-                        <h2 class="text-2xl font-bold mb-6 text-white border-l-4 border-orange-500 pl-4">Estilo e Preferências</h2>
-                        <div class="space-y-6">
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="w-12 h-12 rounded-full bg-dark-800 border border-dark-600 flex items-center justify-center text-brand-500 font-bold text-xl">3</div>
+                            <h2 class="text-3xl font-bold text-white">Estilo & Visual</h2>
+                        </div>
+
+                        <div class="space-y-8">
                            <div>
-                                <label class="block mb-3 text-sm font-medium text-slate-300">Quais palavras descrevem o estilo que você busca? (Marque quantas quiser)</label>
+                                <label class="block mb-4 text-sm font-semibold text-gray-400 uppercase tracking-wide">Quais palavras descrevem o estilo que você busca?</label>
                                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                                    <label><input type="checkbox" name="Estilo[]" value="Moderno" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Moderno</span></label>
-                                    <label><input type="checkbox" name="Estilo[]" value="Minimalista" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Minimalista</span></label>
-                                    <label><input type="checkbox" name="Estilo[]" value="Clássico" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Clássico</span></label>
-                                    <label><input type="checkbox" name="Estilo[]" value="Divertido" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Divertido</span></label>
-                                    <label><input type="checkbox" name="Estilo[]" value="Sofisticado" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Sofisticado</span></label>
-                                    <label><input type="checkbox" name="Estilo[]" value="Robusto" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Robusto</span></label>
-                                    <label><input type="checkbox" name="Estilo[]" value="Orgânico" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Orgânico</span></label>
-                                    <label><input type="checkbox" name="Estilo[]" value="Tech" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-lg cursor-pointer">Tech</span></label>
+                                    <label class="hover-trigger"><input type="checkbox" name="Estilo[]" value="Moderno" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-xl font-medium cursor-pointer text-sm">Moderno</span></label>
+                                    <label class="hover-trigger"><input type="checkbox" name="Estilo[]" value="Minimalista" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-xl font-medium cursor-pointer text-sm">Minimalista</span></label>
+                                    <label class="hover-trigger"><input type="checkbox" name="Estilo[]" value="Tech" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-xl font-medium cursor-pointer text-sm">Tech</span></label>
+                                    <label class="hover-trigger"><input type="checkbox" name="Estilo[]" value="Divertido" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-xl font-medium cursor-pointer text-sm">Divertido</span></label>
+                                    <label class="hover-trigger"><input type="checkbox" name="Estilo[]" value="Sofisticado" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-xl font-medium cursor-pointer text-sm">Sofisticado</span></label>
+                                    <label class="hover-trigger"><input type="checkbox" name="Estilo[]" value="Retrô/Pixel" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-xl font-medium cursor-pointer text-sm">Retrô / Pixel</span></label>
+                                    <label class="hover-trigger"><input type="checkbox" name="Estilo[]" value="Clássico" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-xl font-medium cursor-pointer text-sm">Clássico</span></label>
+                                    <label class="hover-trigger"><input type="checkbox" name="Estilo[]" value="Agressivo" class="hidden"><span class="custom-radio-label block p-4 text-center rounded-xl font-medium cursor-pointer text-sm">Agressivo</span></label>
                                 </div>
                             </div>
-                            <div>
-                                <label for="colors" class="block mb-2 text-sm font-medium text-slate-300">Quais cores você gostaria de ver (ou evitar)?</label>
-                                <input type="text" name="Cores" id="colors" class="form-input w-full p-3 rounded-lg" placeholder="Ex: Gosto de azul e verde, mas não gosto de amarelo.">
-                            </div>
-                            <div>
-                                <label for="references" class="block mb-2 text-sm font-medium text-slate-300">Links de referências ou inspirações (concorrentes, sites, etc.)</label>
-                                <textarea name="Referências" id="references" rows="4" class="form-input w-full p-3 rounded-lg resize-none" placeholder="Cole aqui os links que você gosta (um por linha)."></textarea>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="colors" class="block mb-2 text-sm font-semibold text-gray-400 uppercase tracking-wide">Cores Desejadas (ou para evitar)</label>
+                                    <input type="text" name="Cores" id="colors" class="form-input w-full p-4 rounded-xl hover-trigger" placeholder="Ex: Quero laranja, evite amarelo.">
+                                </div>
+                                <div>
+                                    <label for="references" class="block mb-2 text-sm font-semibold text-gray-400 uppercase tracking-wide">Links de Referência</label>
+                                    <input type="text" name="Referências" id="references" class="form-input w-full p-4 rounded-xl hover-trigger" placeholder="Links de sites ou artes que você gosta">
+                                </div>
                             </div>
                         </div>
                     </fieldset>
 
-                    <!-- Etapa 4: Detalhes Finais -->
+                    <!-- ETAPA 4: DETALHES FINAIS -->
                     <fieldset class="form-step hidden">
-                        <h2 class="text-2xl font-bold mb-6 text-white border-l-4 border-orange-500 pl-4">Detalhes Finais</h2>
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="w-12 h-12 rounded-full bg-dark-800 border border-dark-600 flex items-center justify-center text-brand-500 font-bold text-xl">4</div>
+                            <h2 class="text-3xl font-bold text-white">Últimos Detalhes</h2>
+                        </div>
+
                          <div class="space-y-6">
-                            <div>
-                                <label for="deadline" class="block mb-2 text-sm font-medium text-slate-300">Existe um prazo para este projeto?</label>
-                                <input type="text" name="Prazo" id="deadline" class="form-input w-full p-3 rounded-lg" placeholder="Ex: Sim, para o final do próximo mês.">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="deadline" class="block mb-2 text-sm font-semibold text-gray-400 uppercase tracking-wide">Qual é o Prazo?</label>
+                                    <input type="text" name="Prazo" id="deadline" class="form-input w-full p-4 rounded-xl hover-trigger" placeholder="Ex: Final do mês">
+                                </div>
+                                <div>
+                                    <label for="budget" class="block mb-2 text-sm font-semibold text-gray-400 uppercase tracking-wide">Faixa de Orçamento Prevista</label>
+                                    <select name="Orçamento" id="budget" class="form-input w-full p-4 rounded-xl appearance-none hover-trigger cursor-pointer">
+                                        <option value="" class="bg-dark-900">Selecione uma faixa</option>
+                                        <option value="Até R$500" class="bg-dark-900">Até R$500</option>
+                                        <option value="R$500 - R$1.500" class="bg-dark-900">R$500 - R$1.500</option>
+                                        <option value="R$1.500 - R$3.000" class="bg-dark-900">R$1.500 - R$3.000</option>
+                                        <option value="Acima de R$3.000" class="bg-dark-900">Acima de R$3.000</option>
+                                        <option value="Ainda não definido" class="bg-dark-900">Ainda não definido</option>
+                                    </select>
+                                </div>
                             </div>
                             <div>
-                                <label for="budget" class="block mb-2 text-sm font-medium text-slate-300">Qual é a faixa de orçamento que você está considerando? (Opcional)</label>
-                                <select name="Orçamento" id="budget" class="form-input w-full p-3 rounded-lg appearance-none">
-                                    <option value="">Selecione uma faixa</option>
-                                    <option value="Até R$500">Até R$500</option>
-                                    <option value="R$500 - R$1.500">R$500 - R$1.500</option>
-                                    <option value="R$1.500 - R$3.000">R$1.500 - R$3.000</option>
-                                    <option value="Acima de R$3.000">Acima de R$3.000</option>
-                                    <option value="Ainda não definido">Ainda não definido</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="additional-info" class="block mb-2 text-sm font-medium text-slate-300">Algo mais que eu deva saber?</label>
-                                <textarea name="Informações Adicionais" id="additional-info" rows="5" class="form-input w-full p-3 rounded-lg resize-none" placeholder="Qualquer detalhe extra é bem-vindo!"></textarea>
+                                <label for="additional-info" class="block mb-2 text-sm font-semibold text-gray-400 uppercase tracking-wide">Informações Adicionais</label>
+                                <textarea name="Informações Adicionais" id="additional-info" rows="4" class="form-input w-full p-4 rounded-xl resize-none hover-trigger" placeholder="Qualquer detalhe extra importante sobre a entrega ou o processo..."></textarea>
                             </div>
                         </div>
                     </fieldset>
 
                     <!-- Botões de Navegação -->
-                    <div class="mt-10 flex justify-between items-center">
-                        <button type="button" id="prev-btn" class="px-6 py-2 border-2 border-slate-600 text-slate-300 font-bold rounded-lg hover:bg-slate-700 transition-colors hidden">Anterior</button>
-                        <button type="button" id="next-btn" class="ml-auto px-6 py-2 bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold rounded-lg shadow-lg hover:shadow-orange-500/50 transition-all duration-300 transform hover:scale-105">Próximo</button>
-                        <button type="submit" id="submit-btn" class="ml-auto px-6 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-lg shadow-lg hover:shadow-green-500/50 transition-all duration-300 transform hover:scale-105 hidden items-center justify-center">
-                            🚀 Enviar Briefing
+                    <div class="mt-12 flex justify-between items-center border-t border-dark-600 pt-8">
+                        <button type="button" id="prev-btn" class="px-8 py-3 border border-dark-600 text-gray-300 font-bold rounded-full hover:bg-dark-800 transition-colors hidden hover-trigger">Anterior</button>
+                        <button type="button" id="next-btn" class="ml-auto px-8 py-3 bg-white text-black font-bold rounded-full shadow-lg hover:bg-gray-200 transition-all hover-trigger">Próxima Etapa</button>
+                        <button type="submit" id="submit-btn" class="ml-auto px-8 py-3 bg-gradient-to-r from-brand-500 to-brand-accent text-white font-bold rounded-full shadow-lg hover:shadow-brand-500/40 transition-all transform hover:-translate-y-1 hidden items-center justify-center gap-2 hover-trigger">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                            Enviar Briefing Completo
                         </button>
                     </div>
                 </form>
@@ -247,23 +339,57 @@
     </main>
     
     <!-- Rodapé -->
-    <footer class="bg-slate-900 border-t border-slate-800 py-8 px-6">
-        <div class="container mx-auto text-center">
-             <p class="text-slate-500 text-sm">© 2025 JV.Criativo. Todos os direitos reservados.</p>
-        </div>
+    <footer class="bg-dark-900 border-t border-dark-800 py-8 px-6 text-center z-10 relative">
+        <p class="text-gray-500 text-sm font-medium">© 2026 JV.Criativo. Todos os direitos reservados.</p>
     </footer>
     
-    <!-- Efeito Sonoro -->
+    <!-- Efeito Sonoro (Mantido do Original) -->
     <audio id="success-sound" src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_c89899217e.mp3" preload="auto"></audio>
     
     <!-- Notificação de Sucesso -->
-    <div id="success-toast" class="toast fixed bottom-10 right-10 z-[100] p-4 rounded-lg shadow-2xl bg-green-600 text-white opacity-0 transform translate-y-10 flex items-center gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-        <span>Briefing enviado com sucesso!</span>
+    <div id="success-toast" class="fixed bottom-10 right-10 z-[100] p-4 rounded-xl glass border-brand-500 text-white opacity-0 transform translate-y-10 transition-all duration-500 flex items-center gap-4">
+        <div class="bg-brand-500 p-2 rounded-full text-white shadow-[0_0_15px_rgba(249,115,22,0.6)]">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+        </div>
+        <div>
+            <p class="font-bold text-sm">Briefing Enviado!</p>
+            <p class="text-xs text-gray-300">Recebi aqui. Entro em contato em breve.</p>
+        </div>
     </div>
 
+    <!-- Scripts Form & Webhook -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
+        
+        // --- Custom Cursor ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        const hoverTriggers = document.querySelectorAll('.hover-trigger, a, button, input, textarea, select');
+
+        if(window.innerWidth > 768 && cursorDot && cursorOutline) {
+            window.addEventListener('mousemove', (e) => {
+                cursorDot.style.opacity = '1';
+                cursorOutline.style.opacity = '1';
+                
+                const posX = e.clientX;
+                const posY = e.clientY;
+                
+                cursorDot.style.left = `${posX}px`;
+                cursorDot.style.top = `${posY}px`;
+                
+                cursorOutline.animate({
+                    left: `${posX}px`,
+                    top: `${posY}px`
+                }, { duration: 300, fill: "forwards" });
+            });
+
+            hoverTriggers.forEach(trigger => {
+                trigger.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+                trigger.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+            });
+        }
+
+        // --- Lógica do Form Steps ---
         const formSteps = document.querySelectorAll('.form-step');
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
@@ -271,23 +397,20 @@
         const progressBar = document.getElementById('progress-bar');
         const stepCounter = document.getElementById('step-counter');
         const progressPercent = document.getElementById('progress-percent');
-        const successToast = document.getElementById('success-toast');
-        const successSound = document.getElementById('success-sound');
         const form = document.getElementById('briefing-form');
 
         let currentStep = 0;
         const totalSteps = formSteps.length;
         
-        function showToast(toastElement) {
-            toastElement.classList.remove('opacity-0', 'translate-y-10');
-            setTimeout(() => {
-                toastElement.classList.add('opacity-0', 'translate-y-10');
-            }, 3500);
-        }
-
         function updateFormStep() {
-            formSteps.forEach(step => step.classList.add('hidden'));
+            formSteps.forEach(step => {
+                step.classList.add('hidden');
+                step.classList.remove('active-step');
+            });
             formSteps[currentStep].classList.remove('hidden');
+            setTimeout(() => {
+                formSteps[currentStep].classList.add('active-step');
+            }, 10); // delay para dar o trigger na animação css
 
             const progress = ((currentStep + 1) / totalSteps) * 100;
             progressBar.style.width = `${progress}%`;
@@ -296,20 +419,43 @@
 
             prevBtn.classList.toggle('hidden', currentStep === 0);
             nextBtn.classList.toggle('hidden', currentStep === totalSteps - 1);
-            submitBtn.classList.toggle('hidden', currentStep !== totalSteps - 1);
+            
+            if (currentStep === totalSteps - 1) {
+                submitBtn.classList.remove('hidden');
+                submitBtn.style.display = 'flex';
+            } else {
+                submitBtn.classList.add('hidden');
+                submitBtn.style.display = 'none';
+            }
         }
 
         function validateStep(stepIndex) {
             const currentStepFields = formSteps[stepIndex].querySelectorAll('[required]');
             let isValid = true;
             currentStepFields.forEach(field => {
-                if (!field.value.trim()) {
+                // Checa radio buttons speciais (Serviços)
+                if(field.type === 'radio') {
+                    const group = formSteps[stepIndex].querySelectorAll(`input[name="${field.name}"]`);
+                    const isChecked = Array.from(group).some(radio => radio.checked);
+                    if(!isChecked) isValid = false;
+                } else if (!field.value.trim()) {
                     field.style.borderColor = 'var(--secondary)';
                     isValid = false;
                 } else {
-                    field.style.borderColor = '#334155';
+                    field.style.borderColor = '#1e1e1e'; // Default border color
                 }
             });
+
+            if(!isValid) {
+                // Pequeno shake feedback se der erro
+                formSteps[stepIndex].animate([
+                    { transform: 'translateX(0)' },
+                    { transform: 'translateX(-10px)' },
+                    { transform: 'translateX(10px)' },
+                    { transform: 'translateX(0)' }
+                ], { duration: 300 });
+            }
+
             return isValid;
         }
 
@@ -329,40 +475,95 @@
             }
         });
 
-        // LÓGICA DE SUCESSO PÓS-REDIRECIONAMENTO
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('status') === 'success') {
-             successSound.play().catch(e => console.error("Error playing sound:", e));
-             showToast(successToast);
-             // Limpa a URL para não mostrar o toast de novo se a página for recarregada
-             history.replaceState(null, '', window.location.pathname);
-             setTimeout(() => {
-                window.location.href = 'index.html';
-             }, 4000);
-        }
-
-        // Define o URL de redirecionamento para o Formspree
-        const redirectUrl = window.location.href.split('?')[0] + '?status=success';
-        document.getElementById('formspree-redirect').value = redirectUrl;
-
-        // Feedback no botão de envio
-        form.addEventListener("submit", (e) => {
-            if (!validateStep(currentStep)) {
-                e.preventDefault(); 
-                return;
-            }
-            submitBtn.innerHTML = `
-                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Enviando...`;
-            submitBtn.disabled = true;
-        });
-
         updateFormStep();
+
+        // --- INTEGRAÇÃO WEBHOOK DISCORD ---
+        const successToast = document.getElementById('success-toast');
+        const successSound = document.getElementById('success-sound');
+
+        if (form) {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                if (!validateStep(currentStep)) return;
+
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Processando...`;
+                submitBtn.disabled = true;
+                submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+
+                // Pegar os dados
+                const formData = new FormData(form);
+                
+                // Tratar os Checkboxes Múltiplos do Estilo
+                const estilosMarcados = formData.getAll('Estilo[]');
+                const estiloText = estilosMarcados.length > 0 ? estilosMarcados.join(', ') : "Não especificado";
+
+                // Construir Embed Premium
+                const payload = {
+                    content: "🚀 **UM NOVO BRIEFING COMPLETO ACABOU DE CHEGAR!**",
+                    embeds: [{
+                        title: "📝 Briefing de Projeto | JV.Criativo",
+                        description: "Um cliente preencheu as 4 etapas. Confira os detalhes abaixo:",
+                        color: 16348182, // Laranja
+                        fields: [
+                            { name: "👤 Cliente", value: `\`${formData.get('Nome') || "N/A"}\``, inline: true },
+                            { name: "📧 E-mail", value: `[${formData.get('email') || "N/A"}](mailto:${formData.get('email')})`, inline: true },
+                            { name: "🏢 Empresa / Projeto", value: formData.get('Empresa') || "Não informado", inline: true },
+                            
+                            { name: "🎯 Segmento", value: formData.get('Segmento') || "Não informado", inline: true },
+                            { name: "🛠️ Serviço Desejado", value: formData.get('Serviço') || "Não selecionado", inline: true },
+                            { name: "💰 Orçamento", value: formData.get('Orçamento') || "Não definido", inline: true },
+                            
+                            { name: "📖 Descrição do Negócio", value: `>>> ${formData.get('Descrição do Negócio') || "N/A"}`, inline: false },
+                            
+                            { name: "🎨 Estilos Escolhidos", value: estiloText, inline: true },
+                            { name: "🖌️ Cores", value: formData.get('Cores') || "N/A", inline: true },
+                            { name: "📅 Prazo", value: formData.get('Prazo') || "N/A", inline: true },
+                            
+                            { name: "🔗 Referências", value: formData.get('Referências') || "Nenhuma", inline: false },
+                            { name: "➕ Infos Adicionais", value: formData.get('Informações Adicionais') || "Nenhuma", inline: false }
+                        ],
+                        thumbnail: { url: "https://i.imgur.com/N7Pua0N.png" },
+                        footer: { text: "Sistema Central | JV.Criativo", icon_url: "https://i.imgur.com/N7Pua0N.png" },
+                        timestamp: new Date().toISOString()
+                    }]
+                };
+
+                try {
+                    const response = await fetch('https://discord.com/api/webhooks/1499512780838142242/JgWAcff6C-djLPip5V0o-PSuhO5fVHHmKOtMup9JQ6K4lP8LcqQoVy19XNFeTm6QoR_H', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.ok) {
+                        successSound.play().catch(e => console.log('Audio error:', e));
+                        successToast.classList.remove('opacity-0', 'translate-y-10');
+                        
+                        setTimeout(() => {
+                            successToast.classList.add('opacity-0', 'translate-y-10');
+                            window.location.href = 'index.html'; // Redireciona de volta
+                        }, 3500);
+                        
+                    } else {
+                        alert('Erro ao comunicar com o servidor. Me chame no WhatsApp!');
+                    }
+                } catch (error) {
+                    alert('Erro de conexão. Verifique a internet.');
+                } finally {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+                }
+            });
+        }
     });
     </script>
 </body>
 </html>
-
