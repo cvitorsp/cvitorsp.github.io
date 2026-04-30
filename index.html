@@ -44,17 +44,22 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Custom CSS para Efeitos Premium -->
     <style>
-        /* Base & Scrollbar */
+        /* =========================================
+           BASE & SCROLLBAR
+           ========================================= */
         body {
             background-color: #050505;
             color: #e5e5e5;
-            cursor: none; /* Custom Cursor */
+            cursor: none; /* Custom Cursor ativo no body inteiro */
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
+
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #050505; }
         ::-webkit-scrollbar-thumb {
@@ -62,7 +67,9 @@
             border-radius: 10px;
         }
 
-        /* Custom Cursor */
+        /* =========================================
+           CUSTOM CURSOR
+           ========================================= */
         .cursor-dot, .cursor-outline {
             position: fixed;
             top: 0; left: 0;
@@ -70,6 +77,8 @@
             border-radius: 50%;
             z-index: 9999;
             pointer-events: none;
+            opacity: 0; /* Começa invisível, o JS mostra no primeiro movimento */
+            transition: opacity 0.3s ease;
         }
         .cursor-dot {
             width: 8px; height: 8px;
@@ -78,7 +87,7 @@
         .cursor-outline {
             width: 40px; height: 40px;
             border: 1px solid rgba(249, 115, 22, 0.5);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            transition: width 0.2s, height 0.2s, background-color 0.2s, opacity 0.3s;
         }
         .cursor-hover .cursor-outline {
             width: 60px; height: 60px;
@@ -86,7 +95,9 @@
             border-color: #f97316;
         }
 
-        /* Typography & Gradients */
+        /* =========================================
+           TYPOGRAPHY & GRADIENTS
+           ========================================= */
         .text-gradient {
             background: linear-gradient(to right, #f97316, #ef4444, #f97316);
             background-size: 200% auto;
@@ -97,7 +108,9 @@
         }
         @keyframes shine { to { background-position: 200% center; } }
 
-        /* Glassmorphism */
+        /* =========================================
+           GLASSMORPHISM
+           ========================================= */
         .glass {
             background: rgba(20, 20, 20, 0.4);
             backdrop-filter: blur(16px);
@@ -105,7 +118,9 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Animations & Reveal */
+        /* =========================================
+           ANIMATIONS & REVEAL
+           ========================================= */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -116,7 +131,14 @@
             transform: translateY(0);
         }
 
-        /* Mockup CSS (MacBook & iPhone) */
+        .decorative-shape {
+            transition: transform 0.4s ease-out;
+            will-change: transform;
+        }
+
+        /* =========================================
+           MOCKUP CSS (MacBook & iPhone)
+           ========================================= */
         .macbook-mockup {
             position: relative;
             width: 100%;
@@ -164,7 +186,9 @@
         .scroll-img-container::-webkit-scrollbar { width: 4px; }
         .scroll-img-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); }
 
-        /* Filter Grid */
+        /* =========================================
+           FILTER GRID & 3D TILT
+           ========================================= */
         .grid-item {
             transition: all 0.5s ease;
         }
@@ -172,14 +196,15 @@
             display: none;
         }
 
-        /* 3D Tilt Effect Wrapper */
         .tilt-wrapper { perspective: 1000px; }
         .tilt-element {
             transition: transform 0.1s ease;
             transform-style: preserve-3d;
         }
 
-        /* Marquee */
+        /* =========================================
+           MARQUEE INFINITO
+           ========================================= */
         .marquee-wrapper {
             overflow: hidden;
             white-space: nowrap;
@@ -193,7 +218,9 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* Lightbox Modal */
+        /* =========================================
+           LIGHTBOX & FAQ ACCORDION
+           ========================================= */
         #lightbox {
             backdrop-filter: blur(20px);
             transition: opacity 0.3s ease;
@@ -203,15 +230,35 @@
             max-width: 90vw;
             box-shadow: 0 0 50px rgba(0,0,0,0.8);
         }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.4s ease-out;
+            opacity: 0;
+        }
+        .faq-item.active .faq-answer {
+            opacity: 1;
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-brand-500 selection:text-white">
 
-    <!-- Custom Cursor elements -->
+    <!-- =========================================
+         CUSTOM CURSOR
+         ========================================= -->
     <div class="cursor-dot hidden md:block"></div>
     <div class="cursor-outline hidden md:block"></div>
 
-    <!-- PRELOADER SUPERIOR -->
+    <!-- =========================================
+         PRELOADER SUPERIOR
+         ========================================= -->
     <div id="preloader" class="fixed inset-0 z-[10000] bg-dark-900 flex flex-col items-center justify-center transition-transform duration-1000 ease-in-out">
         <div class="relative w-32 h-32 flex items-center justify-center mb-8">
             <svg class="animate-spin absolute w-full h-full text-dark-700" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
@@ -224,46 +271,72 @@
         </div>
     </div>
 
-    <!-- NAVBAR GLASSMORPHISM -->
+    <!-- =========================================
+         NAVBAR GLASSMORPHISM
+         ========================================= -->
     <header id="header" class="fixed top-0 w-full z-50 transition-all duration-300 py-6">
         <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
-            <a href="#" class="flex items-center gap-3 group hover-trigger">
+            <a href="#inicio" class="flex items-center gap-3 group hover-trigger">
                 <img src="https://i.imgur.com/N7Pua0N.png" class="w-10 h-10 group-hover:scale-110 transition-transform duration-300" alt="Logo">
                 <span class="font-display font-bold text-2xl tracking-tight text-white hidden sm:block">JV.Criativo</span>
             </a>
             
             <nav class="hidden lg:flex items-center gap-8 glass px-8 py-3 rounded-full">
-                <a href="#cases" class="text-sm font-medium text-gray-300 hover:text-brand-500 transition-colors hover-trigger">Cases R1 & Kozinhas</a>
+                <a href="#especialidades" class="text-sm font-medium text-gray-300 hover:text-brand-500 transition-colors hover-trigger">Especialidades</a>
+                <a href="#cases" class="text-sm font-medium text-gray-300 hover:text-brand-500 transition-colors hover-trigger">Cases</a>
                 <a href="#portfolio" class="text-sm font-medium text-gray-300 hover:text-brand-500 transition-colors hover-trigger">Portfólio</a>
-                <a href="#bots" class="text-sm font-medium text-gray-300 hover:text-brand-500 transition-colors hover-trigger">Bots Discord</a>
-                <a href="#sobre" class="text-sm font-medium text-gray-300 hover:text-brand-500 transition-colors hover-trigger">Sobre o Artista</a>
+                <a href="#processo" class="text-sm font-medium text-gray-300 hover:text-brand-500 transition-colors hover-trigger">O Processo</a>
+                <a href="#sobre" class="text-sm font-medium text-gray-300 hover:text-brand-500 transition-colors hover-trigger">Sobre</a>
             </nav>
 
             <div class="hidden lg:block">
+                <!-- Direcionado para o Contato -->
                 <a href="#contato" class="relative inline-flex items-center justify-center px-8 py-3 overflow-hidden font-bold text-white rounded-full bg-brand-600 hover-trigger group">
                     <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-10"></span>
                     <span class="relative">Iniciar Projeto</span>
                 </a>
             </div>
 
-            <!-- Mobile Btn -->
-            <button class="lg:hidden text-white hover-trigger" id="mobile-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            <!-- Botão Mobile Restaurado e Corrigido -->
+            <button class="lg:hidden text-white hover-trigger focus:outline-none" id="mobile-btn">
+                <svg id="menu-icon-open" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                <svg id="menu-icon-close" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
+        </div>
+        
+        <!-- Menu Mobile -->
+        <div id="mobile-menu" class="md:hidden absolute top-0 left-0 w-full bg-dark-800/95 backdrop-blur-xl border-b border-dark-700 pt-24 pb-8 transform -translate-y-full transition-transform duration-300 ease-in-out shadow-2xl">
+            <nav class="flex flex-col items-center gap-2 p-6">
+                <a href="#inicio" class="nav-link-mobile w-full text-center py-3 text-lg font-medium text-gray-300 rounded-lg hover:bg-dark-700">Início</a>
+                <a href="#especialidades" class="nav-link-mobile w-full text-center py-3 text-lg font-medium text-gray-300 rounded-lg hover:bg-dark-700">Especialidades</a>
+                <a href="#cases" class="nav-link-mobile w-full text-center py-3 text-lg font-medium text-gray-300 rounded-lg hover:bg-dark-700">Cases de Sucesso</a>
+                <a href="#portfolio" class="nav-link-mobile w-full text-center py-3 text-lg font-medium text-gray-300 rounded-lg hover:bg-dark-700">Portfólio</a>
+                <a href="#processo" class="nav-link-mobile w-full text-center py-3 text-lg font-medium text-gray-300 rounded-lg hover:bg-dark-700">Processo & Briefing</a>
+                <a href="#sobre" class="nav-link-mobile w-full text-center py-3 text-lg font-medium text-gray-300 rounded-lg hover:bg-dark-700">Sobre Mim</a>
+                <a href="#contato" class="mt-6 w-full text-center py-4 text-lg font-bold text-white bg-gradient-to-r from-orange-500 to-red-600 rounded-xl shadow-lg nav-link-mobile">Iniciar Projeto</a>
+            </nav>
         </div>
     </header>
 
-    <!-- HERO SECTION -->
-    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+    <!-- =========================================
+         HERO SECTION
+         ========================================= -->
+    <section id="inicio" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
         <div class="absolute inset-0 bg-glow-gradient opacity-60"></div>
         
         <!-- Animated Background Grid -->
         <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
 
-        <!-- Decorative Floating Elements -->
-        <div class="decorative-shape absolute top-[20%] left-[10%] w-8 h-8 text-brand-500 opacity-40"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg></div>
-        <div class="decorative-shape absolute top-[25%] right-[12%] w-10 h-10 text-brand-accent opacity-40 hidden md:block"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.7.8 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg></div>
-        <div class="decorative-shape absolute bottom-[20%] left-[20%] w-9 h-9 text-brand-500 opacity-40"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle><circle cx="10.5" cy="14.5" r=".5" fill="currentColor"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.668 0-.437-.18-.835-.437-1.108-.257-.273-.666-.698-.666-1.672 0-1.112.512-1.674 1.284-2.173.131-.086.264-.173.397-.26.492-.32.984-.64 1.476-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96l.63-.42c1.26-.84 2.1-2.24 2.1-3.84C22 3.96 20.48 2 18 2c-1.55 0-2.93.79-3.75 2Z"></path></svg></div>
+        <!-- Decorative Floating Elements Restaurados -->
+        <div class="decorative-shape absolute top-[20%] left-[10%] w-8 h-8 text-brand-500 opacity-40 hidden md:block">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+        </div>
+        <div class="decorative-shape absolute top-[25%] right-[15%] w-10 h-10 text-brand-accent opacity-40 hidden md:block">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.7.8 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>
+        </div>
+        <div class="decorative-shape absolute bottom-[25%] left-[20%] w-9 h-9 text-brand-500 opacity-40 hidden md:block">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle><circle cx="10.5" cy="14.5" r=".5" fill="currentColor"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.668 0-.437-.18-.835-.437-1.108-.257-.273-.666-.698-.666-1.672 0-1.112.512-1.674 1.284-2.173.131-.086.264-.173.397-.26.492-.32.984-.64 1.476-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96l.63-.42c1.26-.84 2.1-2.24 2.1-3.84C22 3.96 20.48 2 18 2c-1.55 0-2.93.79-3.75 2Z"></path></svg>
+        </div>
 
         <div class="container mx-auto px-6 relative z-10 text-center" id="hero-content">
             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border-brand-500/30 mb-8 reveal">
@@ -281,11 +354,12 @@
             </p>
             
             <div class="flex flex-col sm:flex-row items-center justify-center gap-6 reveal">
-                <a href="#cases" class="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors w-full sm:w-auto hover-trigger">
-                    Ver Estudos de Caso
+                <a href="#portfolio" class="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors w-full sm:w-auto hover-trigger">
+                    Explorar Acervo
                 </a>
+                <!-- Redireciona para o formulário de contato -->
                 <a href="#contato" class="px-8 py-4 glass text-white font-bold rounded-full hover:bg-white/10 transition-colors w-full sm:w-auto flex items-center justify-center gap-2 hover-trigger">
-                    Falar com João
+                    Iniciar um Projeto
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                 </a>
             </div>
@@ -293,12 +367,14 @@
 
         <!-- Scroll Indicator -->
         <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
-            <span class="text-xs uppercase tracking-widest">Scroll</span>
+            <span class="text-xs uppercase tracking-widest font-semibold">Scroll</span>
             <div class="w-[1px] h-12 bg-gradient-to-b from-white to-transparent"></div>
         </div>
     </section>
 
-    <!-- MARQUEE INFINITO -->
+    <!-- =========================================
+         MARQUEE INFINITO
+         ========================================= -->
     <div class="py-10 border-y border-dark-700 bg-dark-800/50 backdrop-blur-sm marquee-wrapper rotate-[-2deg] scale-110 relative z-20">
         <div class="marquee-content font-display text-4xl md:text-6xl font-black text-dark-600 uppercase tracking-wider flex gap-12">
             <span>Web Design</span>
@@ -317,37 +393,86 @@
         </div>
     </div>
 
-    <!-- FEATURED CASE STUDIES (JORNAL R1 & KOZINHAS) -->
+    <!-- =========================================
+         ESPECIALIDADES DETALHADAS (NOVO)
+         ========================================= -->
+    <section id="especialidades" class="py-32 relative bg-dark-900 overflow-hidden border-b border-dark-700">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+                <h2 class="font-display text-4xl md:text-6xl font-bold text-white mb-6">Onde eu <span class="text-gradient">Domino</span></h2>
+                <p class="text-gray-400 text-lg">Um arsenal completo de habilidades visuais e lógicas para construir a presença digital da sua marca.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
+                <!-- Card 1 -->
+                <div class="glass p-10 rounded-[30px] border border-dark-600 hover:border-brand-500 transition-colors group">
+                    <div class="w-16 h-16 rounded-2xl bg-brand-500/20 text-brand-500 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Web Design & UI/UX</h3>
+                    <p class="text-gray-400 leading-relaxed mb-6">
+                        Criação de Landing Pages de alta conversão, portais institucionais e interfaces focadas na experiência do usuário. Foco extremo em performance e responsividade.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass p-10 rounded-[30px] border border-dark-600 hover:border-brand-500 transition-colors group">
+                    <div class="w-16 h-16 rounded-2xl bg-brand-500/20 text-brand-500 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10H12V2z"></path><path d="M12 12 2.1 12"></path><path d="M12 12 21.9 12"></path><path d="M12 12 12 21.9"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Identidade & Branding</h3>
+                    <p class="text-gray-400 leading-relaxed mb-6">
+                        Construção de ecossistemas visuais completos. Logotipos, paletas de cores, tipografia e design de social media que conversam diretamente com o seu público-alvo.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass p-10 rounded-[30px] border border-dark-600 hover:border-brand-500 transition-colors group">
+                    <div class="w-16 h-16 rounded-2xl bg-brand-500/20 text-brand-500 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Pixel Art & Habbo</h3>
+                    <p class="text-gray-400 leading-relaxed mb-6">
+                        Especialista em composição visual isométrica. Criação de cenários complexos, emblemas e interfaces nostálgicas para comunidades de jogos e plataformas virtuais.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================
+         FEATURED CASE STUDIES
+         ========================================= -->
     <section id="cases" class="py-32 relative">
         <div class="container mx-auto px-6">
-            <div class="mb-20 reveal">
+            <div class="mb-20 reveal text-center md:text-left">
                 <h2 class="font-display text-4xl md:text-6xl font-bold text-white mb-4">Estudos de <span class="text-gradient">Caso</span></h2>
                 <p class="text-gray-400 text-lg">Projetos reais entregues com alta performance e design impecável.</p>
             </div>
 
             <!-- CASE 1: JORNAL R1 -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32 reveal">
-                <div class="order-2 lg:order-1">
-                    <div class="flex items-center gap-3 mb-6">
-                        <span class="px-3 py-1 bg-brand-500/20 text-brand-500 text-xs font-bold uppercase tracking-wider rounded-full border border-brand-500/30">Portal de Notícias</span>
-                        <span class="px-3 py-1 bg-dark-700 text-gray-300 text-xs font-bold uppercase tracking-wider rounded-full border border-dark-600">UI/UX Design</span>
+                <div class="order-2 lg:order-1 text-center md:text-left">
+                    <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-6">
+                        <span class="px-4 py-1.5 bg-brand-500/20 text-brand-500 text-xs font-bold uppercase tracking-wider rounded-full border border-brand-500/30">Portal de Notícias</span>
+                        <span class="px-4 py-1.5 bg-dark-700 text-gray-300 text-xs font-bold uppercase tracking-wider rounded-full border border-dark-600">UI/UX Design</span>
                     </div>
                     <h3 class="font-display text-5xl font-bold text-white mb-6">Jornal R1</h3>
                     <p class="text-gray-400 text-lg mb-8 leading-relaxed">
                         Desenvolvimento completo de interface para um portal de notícias moderno. O foco foi criar uma arquitetura de informação limpa, com leitura confortável e alta velocidade de carregamento, permitindo que a notícia seja sempre a protagonista.
                     </p>
-                    <ul class="space-y-4 mb-10 text-gray-300">
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Layout Totalmente Responsivo</li>
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Tipografia Otimizada para Leitura</li>
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Sistema de Grids para Matérias</li>
+                    <ul class="space-y-4 mb-10 text-gray-300 text-left w-max mx-auto md:mx-0">
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-brand-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Layout Totalmente Responsivo</li>
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-brand-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Tipografia Otimizada para Leitura</li>
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-brand-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Sistema de Grids para Matérias</li>
                     </ul>
-                    <a href="https://www.jornalr1.com/" target="_blank" class="inline-flex items-center gap-2 px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-full transition-all hover-trigger">
-                        Visitar Website Vivo <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    <a href="https://www.jornalr1.com/" target="_blank" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-full transition-all hover-trigger w-full sm:w-auto">
+                        Visitar Website <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                     </a>
                 </div>
                 
                 <!-- Custom CSS Device Presentation -->
-                <div class="order-1 lg:order-2 relative w-full flex justify-end tilt-wrapper hover-trigger">
+                <div class="order-1 lg:order-2 relative w-full flex justify-center lg:justify-end tilt-wrapper hover-trigger">
                     <div class="tilt-element relative w-full max-w-[600px]">
                         <!-- MacBook Mockup -->
                         <div class="macbook-mockup">
@@ -355,7 +480,7 @@
                                 <img src="https://i.imgur.com/HHEUaXB.png" alt="Jornal R1 Desktop" class="w-full h-auto">
                             </div>
                         </div>
-                        <!-- Floating iPhone Mockup -->
+                        <!-- Floating iPhone Mockup com imagem nova do celular -->
                         <div class="iphone-mockup absolute -bottom-10 -left-10 transform scale-75 md:scale-90 border-dark-800 hidden md:block">
                             <div class="scroll-img-container">
                                 <img src="https://i.imgur.com/ReqkuY6.png" alt="Jornal R1 Mobile" class="w-full h-auto">
@@ -367,8 +492,8 @@
 
             <!-- CASE 2: EMPRESA KOZINHAS -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center reveal mt-32">
-                <!-- Custom CSS Device Presentation (Left Side this time) -->
-                <div class="relative w-full flex justify-start tilt-wrapper hover-trigger">
+                <!-- Custom CSS Device Presentation -->
+                <div class="relative w-full flex justify-center lg:justify-start tilt-wrapper hover-trigger">
                     <div class="tilt-element relative w-full max-w-[600px]">
                         <div class="macbook-mockup">
                             <div class="scroll-img-container">
@@ -380,23 +505,23 @@
                     </div>
                 </div>
 
-                <div>
-                    <div class="flex items-center gap-3 mb-6">
-                        <span class="px-3 py-1 bg-red-500/20 text-red-500 text-xs font-bold uppercase tracking-wider rounded-full border border-red-500/30">Landing Page</span>
-                        <span class="px-3 py-1 bg-dark-700 text-gray-300 text-xs font-bold uppercase tracking-wider rounded-full border border-dark-600">Corporativo</span>
+                <div class="text-center md:text-left">
+                    <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-6">
+                        <span class="px-4 py-1.5 bg-red-500/20 text-red-500 text-xs font-bold uppercase tracking-wider rounded-full border border-red-500/30">Landing Page</span>
+                        <span class="px-4 py-1.5 bg-dark-700 text-gray-300 text-xs font-bold uppercase tracking-wider rounded-full border border-dark-600">Corporativo</span>
                     </div>
                     <h3 class="font-display text-5xl font-bold text-white mb-6">Kozinhas</h3>
                     <p class="text-gray-400 text-lg mb-8 leading-relaxed">
                         Criação de Landing Page focada em conversão para a empresa Kozinhas. Design clean, sofisticado e alinhado com a identidade visual da marca para demonstrar qualidade, confiança e captar leads qualificados.
                     </p>
-                    <div class="grid grid-cols-2 gap-6 mb-10">
-                        <div class="glass p-4 rounded-xl">
-                            <h4 class="text-white font-bold mb-1">Visual Clean</h4>
-                            <p class="text-sm text-gray-500">Uso de espaços em branco e fotografia premium.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10 text-left">
+                        <div class="glass p-5 rounded-2xl border border-dark-600">
+                            <h4 class="text-white font-bold mb-2 flex items-center gap-2"><svg class="w-4 h-4 text-brand-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> Visual Clean</h4>
+                            <p class="text-sm text-gray-400">Uso de espaços em branco e fotografia premium.</p>
                         </div>
-                        <div class="glass p-4 rounded-xl">
-                            <h4 class="text-white font-bold mb-1">Foco em Leads</h4>
-                            <p class="text-sm text-gray-500">CTAs estratégicos em toda a jornada do usuário.</p>
+                        <div class="glass p-5 rounded-2xl border border-dark-600">
+                            <h4 class="text-white font-bold mb-2 flex items-center gap-2"><svg class="w-4 h-4 text-brand-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" /></svg> Foco em Leads</h4>
+                            <p class="text-sm text-gray-400">CTAs estratégicos em toda a jornada do usuário.</p>
                         </div>
                     </div>
                 </div>
@@ -404,17 +529,19 @@
         </div>
     </section>
 
-    <!-- MEGA PORTFOLIO GRID -->
+    <!-- =========================================
+         MEGA PORTFOLIO GRID
+         ========================================= -->
     <section id="portfolio" class="py-24 bg-dark-800">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 reveal">
-                <div>
+                <div class="text-center md:text-left">
                     <h2 class="font-display text-4xl md:text-6xl font-bold text-white mb-4">Acervo <span class="text-gradient">Criativo</span></h2>
                     <p class="text-gray-400 text-lg">Clique em qualquer imagem para expandir.</p>
                 </div>
                 
                 <!-- Filter Buttons -->
-                <div class="flex flex-wrap gap-3" id="filters">
+                <div class="flex flex-wrap justify-center md:justify-end gap-3" id="filters">
                     <button class="filter-btn active px-5 py-2.5 rounded-full glass border-brand-500 text-white font-medium text-sm hover-trigger" data-filter="all">Todos</button>
                     <button class="filter-btn px-5 py-2.5 rounded-full glass hover:border-brand-500 text-gray-400 font-medium text-sm transition-colors hover-trigger" data-filter="habbo">Habbo & Pixel</button>
                     <button class="filter-btn px-5 py-2.5 rounded-full glass hover:border-brand-500 text-gray-400 font-medium text-sm transition-colors hover-trigger" data-filter="real">Design Real</button>
@@ -426,157 +553,162 @@
             <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6" id="gallery">
                 
                 <!-- HABBO IMAGES -->
-                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="habbo" onclick="openLightbox('https://i.imgur.com/SN9tOaO.jpeg', 'Projeto Habbo - Arte 1')">
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer border border-dark-600" data-category="habbo" onclick="openLightbox('https://i.imgur.com/SN9tOaO.jpeg', 'Projeto Habbo - Arte 1')">
                     <img src="https://i.imgur.com/SN9tOaO.jpeg" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Habbo">
                     <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass">Ampliar</span>
+                        <span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg> Ampliar
+                        </span>
                     </div>
                 </div>
                 
-                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="habbo" onclick="openLightbox('https://i.imgur.com/M1XP0yT.png', 'Projeto Habbo - Interface')">
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer border border-dark-600" data-category="habbo" onclick="openLightbox('https://i.imgur.com/M1XP0yT.png', 'Projeto Habbo - Interface')">
                     <img src="https://i.imgur.com/M1XP0yT.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Habbo UI">
                     <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass">Ampliar</span></div>
                 </div>
 
-                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="habbo" onclick="openLightbox('https://i.imgur.com/K1EtQPJ.jpeg', 'Projeto Habbo - Isométrico')">
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer border border-dark-600" data-category="habbo" onclick="openLightbox('https://i.imgur.com/K1EtQPJ.jpeg', 'Projeto Habbo - Isométrico')">
                     <img src="https://i.imgur.com/K1EtQPJ.jpeg" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Habbo Iso">
                     <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass">Ampliar</span></div>
                 </div>
 
-                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="habbo" onclick="openLightbox('https://i.imgur.com/zENCuis.png', 'Projeto Habbo - Assets')">
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer border border-dark-600" data-category="habbo" onclick="openLightbox('https://i.imgur.com/zENCuis.png', 'Projeto Habbo - Assets')">
                     <img src="https://i.imgur.com/zENCuis.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Habbo Assets">
                     <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass">Ampliar</span></div>
                 </div>
                 
-                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="habbo" onclick="openLightbox('https://i.imgur.com/iYJ6AgD.jpeg', 'Projeto Habbo - Cena')">
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer border border-dark-600" data-category="habbo" onclick="openLightbox('https://i.imgur.com/iYJ6AgD.jpeg', 'Projeto Habbo - Cena')">
                     <img src="https://i.imgur.com/iYJ6AgD.jpeg" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Habbo Scene">
                     <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass">Ampliar</span></div>
                 </div>
 
-                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="habbo" onclick="openLightbox('https://i.imgur.com/o37coK9.jpeg', 'Projeto Habbo - Detalhes')">
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer border border-dark-600" data-category="habbo" onclick="openLightbox('https://i.imgur.com/o37coK9.jpeg', 'Projeto Habbo - Detalhes')">
                     <img src="https://i.imgur.com/o37coK9.jpeg" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Habbo Detalhes">
                     <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass">Ampliar</span></div>
                 </div>
 
                 <!-- REAL LIFE / DESIGN GERAL -->
-                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="real" onclick="openLightbox('https://i.imgur.com/tWM80dP.jpeg', 'Composição - Vida Real')">
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer border border-dark-600" data-category="real" onclick="openLightbox('https://i.imgur.com/tWM80dP.jpeg', 'Composição - Vida Real')">
                     <img src="https://i.imgur.com/tWM80dP.jpeg" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Real 1">
-                    <div class="absolute inset-0 bg-brand-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center">
-                        <span class="text-brand-100 font-bold text-lg mb-2">Composição Visual</span>
-                        <span class="text-white border border-white/30 px-4 py-1 rounded-full text-xs">Ver Arte</span>
+                    <div class="absolute inset-0 bg-brand-900/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center">
+                        <span class="text-brand-100 font-bold text-xl mb-3">Composição Visual</span>
+                        <span class="text-white border border-white/30 px-5 py-2 rounded-full text-xs uppercase tracking-wider font-semibold glass">Ver Arte</span>
                     </div>
                 </div>
 
-                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="real" onclick="openLightbox('https://i.imgur.com/eqLfbnu.jpeg', 'Estudo de Iluminação')">
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer border border-dark-600" data-category="real" onclick="openLightbox('https://i.imgur.com/eqLfbnu.jpeg', 'Estudo de Iluminação')">
                     <img src="https://i.imgur.com/eqLfbnu.jpeg" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Real 2">
-                    <div class="absolute inset-0 bg-brand-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-lg mb-2">Arte Gráfica</span></div>
+                    <div class="absolute inset-0 bg-brand-900/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-xl mb-3">Arte Gráfica</span><span class="text-white border border-white/30 px-5 py-2 rounded-full text-xs uppercase tracking-wider font-semibold glass">Ver Arte</span></div>
                 </div>
 
-                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="real" onclick="openLightbox('https://i.imgur.com/GkrIKDT.png', 'Manipulação de Imagem')">
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer border border-dark-600" data-category="real" onclick="openLightbox('https://i.imgur.com/GkrIKDT.png', 'Manipulação de Imagem')">
                     <img src="https://i.imgur.com/GkrIKDT.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Real 3">
-                    <div class="absolute inset-0 bg-brand-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-lg mb-2">Manipulação</span></div>
+                    <div class="absolute inset-0 bg-brand-900/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-xl mb-3">Manipulação</span><span class="text-white border border-white/30 px-5 py-2 rounded-full text-xs uppercase tracking-wider font-semibold glass">Ver Arte</span></div>
                 </div>
                 
-                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="real" onclick="openLightbox('https://i.imgur.com/9VQsJqF.png', 'Conceito Visual')">
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer border border-dark-600" data-category="real" onclick="openLightbox('https://i.imgur.com/9VQsJqF.png', 'Conceito Visual')">
                     <img src="https://i.imgur.com/9VQsJqF.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Real 4">
-                    <div class="absolute inset-0 bg-brand-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-lg mb-2">Conceito Visual</span></div>
+                    <div class="absolute inset-0 bg-brand-900/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-xl mb-3">Conceito Visual</span><span class="text-white border border-white/30 px-5 py-2 rounded-full text-xs uppercase tracking-wider font-semibold glass">Ver Arte</span></div>
                 </div>
 
-                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="real" onclick="openLightbox('https://i.imgur.com/udzhEOh.png', 'Peça Publicitária')">
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer border border-dark-600" data-category="real" onclick="openLightbox('https://i.imgur.com/udzhEOh.png', 'Peça Publicitária')">
                     <img src="https://i.imgur.com/udzhEOh.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Real 5">
-                    <div class="absolute inset-0 bg-brand-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-lg mb-2">Publicidade</span></div>
+                    <div class="absolute inset-0 bg-brand-900/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-xl mb-3">Publicidade</span><span class="text-white border border-white/30 px-5 py-2 rounded-full text-xs uppercase tracking-wider font-semibold glass">Ver Arte</span></div>
                 </div>
 
-                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="real" onclick="openLightbox('https://i.imgur.com/XoBdX1d.png', 'Tipografia e Cor')">
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer border border-dark-600" data-category="real" onclick="openLightbox('https://i.imgur.com/XoBdX1d.png', 'Tipografia e Cor')">
                     <img src="https://i.imgur.com/XoBdX1d.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Real 6">
-                    <div class="absolute inset-0 bg-brand-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-lg mb-2">Tipografia & Cor</span></div>
+                    <div class="absolute inset-0 bg-brand-900/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-xl mb-3">Tipografia & Cor</span><span class="text-white border border-white/30 px-5 py-2 rounded-full text-xs uppercase tracking-wider font-semibold glass">Ver Arte</span></div>
                 </div>
 
-                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="real" onclick="openLightbox('https://i.imgur.com/MbqXPM0.png', 'Social Media Design')">
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer border border-dark-600" data-category="real" onclick="openLightbox('https://i.imgur.com/MbqXPM0.png', 'Social Media Design')">
                     <img src="https://i.imgur.com/MbqXPM0.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Real 7">
-                    <div class="absolute inset-0 bg-brand-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-lg mb-2">Social Media</span></div>
+                    <div class="absolute inset-0 bg-brand-900/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-xl mb-3">Social Media</span><span class="text-white border border-white/30 px-5 py-2 rounded-full text-xs uppercase tracking-wider font-semibold glass">Ver Arte</span></div>
                 </div>
 
-                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="real" onclick="openLightbox('https://i.imgur.com/JtvV1SN.png', 'Branding')">
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer border border-dark-600" data-category="real" onclick="openLightbox('https://i.imgur.com/JtvV1SN.png', 'Branding')">
                     <img src="https://i.imgur.com/JtvV1SN.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Real 8">
-                    <div class="absolute inset-0 bg-brand-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-lg mb-2">Branding</span></div>
+                    <div class="absolute inset-0 bg-brand-900/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-xl mb-3">Branding</span><span class="text-white border border-white/30 px-5 py-2 rounded-full text-xs uppercase tracking-wider font-semibold glass">Ver Arte</span></div>
                 </div>
 
                 <!-- WEB E OUTROS -->
-                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="web" onclick="openLightbox('https://i.imgur.com/4mYqKAX.png', 'Jornal R1 - Detalhe Mobile')">
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer border border-dark-600" data-category="web" onclick="openLightbox('https://i.imgur.com/4mYqKAX.png', 'Jornal R1 - Detalhe Mobile')">
                     <img src="https://i.imgur.com/4mYqKAX.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Jornal Mobile">
-                    <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass">Web</span></div>
+                    <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center"><span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass mb-2">Interface Mobile</span></div>
                 </div>
 
-                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="web" onclick="openLightbox('https://i.imgur.com/j5YVj4I.png', 'Kozinhas - Interface Secundária')">
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer border border-dark-600" data-category="web" onclick="openLightbox('https://i.imgur.com/j5YVj4I.png', 'Kozinhas - Interface Secundária')">
                     <img src="https://i.imgur.com/j5YVj4I.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Kozinha UI">
-                    <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass">Web</span></div>
+                    <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center"><span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass mb-2">Web Components</span></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- DISCORD BOTS SECTION (DARKER TECH THEME) -->
+    <!-- =========================================
+         DISCORD BOTS SECTION (TECH THEME)
+         ========================================= -->
     <section id="bots" class="py-32 relative bg-dark-900 overflow-hidden border-t border-dark-700">
         <!-- Decoration -->
         <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[100px] pointer-events-none"></div>
 
         <div class="container mx-auto px-6 relative z-10">
             <div class="text-center max-w-3xl mx-auto mb-20 reveal">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 mb-6">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 mb-6 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>
                     <span class="text-sm font-bold tracking-widest uppercase">Discord Development</span>
                 </div>
                 <h2 class="font-display text-4xl md:text-6xl font-bold text-white mb-6">Bots Personalizados para <span class="text-indigo-500">Comunidades</span></h2>
-                <p class="text-gray-400 text-lg">Desenvolvimento de sistemas robustos e interfaces customizadas para elevar o nível da gestão do seu servidor Discord.</p>
+                <p class="text-gray-400 text-lg leading-relaxed">Desenvolvimento de sistemas robustos e interfaces customizadas (Embeds) para elevar o nível de gestão, economia e moderação do seu servidor Discord.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 reveal">
                 <!-- Bot Item 1 -->
-                <div class="bg-dark-800 border border-dark-700 rounded-2xl overflow-hidden hover-trigger tilt-wrapper cursor-pointer" onclick="openLightbox('https://i.imgur.com/WuLuosg.png', 'Interface de Configuração do Bot')">
+                <div class="glass border border-dark-600 rounded-2xl overflow-hidden hover-trigger tilt-wrapper cursor-pointer" onclick="openLightbox('https://i.imgur.com/WuLuosg.png', 'Interface de Configuração do Bot')">
                     <div class="tilt-element">
-                        <div class="h-48 overflow-hidden bg-dark-900 p-4">
-                            <img src="https://i.imgur.com/WuLuosg.png" class="w-full h-full object-contain rounded-lg" alt="Bot Image 1">
+                        <div class="h-48 overflow-hidden bg-[#2b2d31] p-4 flex items-center justify-center">
+                            <img src="https://i.imgur.com/WuLuosg.png" class="w-full h-full object-contain rounded-lg shadow-lg" alt="Bot Setup">
                         </div>
                         <div class="p-6">
-                            <h4 class="text-white font-bold mb-2">Painel de Setup</h4>
-                            <p class="text-gray-500 text-sm">Interface elegante para configuração rápida.</p>
+                            <h4 class="text-white font-bold mb-2 text-lg">Painel de Setup</h4>
+                            <p class="text-gray-500 text-sm">Interface elegante com menus interativos para configuração rápida e intuitiva.</p>
                         </div>
                     </div>
                 </div>
                 <!-- Bot Item 2 -->
-                <div class="bg-dark-800 border border-dark-700 rounded-2xl overflow-hidden hover-trigger tilt-wrapper cursor-pointer" onclick="openLightbox('https://i.imgur.com/nKB6gse.png', 'Sistema de Moderação')">
+                <div class="glass border border-dark-600 rounded-2xl overflow-hidden hover-trigger tilt-wrapper cursor-pointer" onclick="openLightbox('https://i.imgur.com/nKB6gse.png', 'Sistema de Moderação')">
                     <div class="tilt-element">
-                        <div class="h-48 overflow-hidden bg-dark-900 p-4">
-                            <img src="https://i.imgur.com/nKB6gse.png" class="w-full h-full object-contain rounded-lg" alt="Bot Image 2">
+                        <div class="h-48 overflow-hidden bg-[#2b2d31] p-4 flex items-center justify-center">
+                            <img src="https://i.imgur.com/nKB6gse.png" class="w-full h-full object-contain rounded-lg shadow-lg" alt="Bot Moderation">
                         </div>
                         <div class="p-6">
-                            <h4 class="text-white font-bold mb-2">Moderação Automática</h4>
-                            <p class="text-gray-500 text-sm">Sistemas complexos de logs e punições.</p>
+                            <h4 class="text-white font-bold mb-2 text-lg">Moderação Avançada</h4>
+                            <p class="text-gray-500 text-sm">Sistemas complexos de avisos, punições automatizadas e filtros de chat.</p>
                         </div>
                     </div>
                 </div>
                 <!-- Bot Item 3 -->
-                <div class="bg-dark-800 border border-dark-700 rounded-2xl overflow-hidden hover-trigger tilt-wrapper cursor-pointer" onclick="openLightbox('https://i.imgur.com/fZc4B56.png', 'Economia e Leveling')">
+                <div class="glass border border-dark-600 rounded-2xl overflow-hidden hover-trigger tilt-wrapper cursor-pointer" onclick="openLightbox('https://i.imgur.com/fZc4B56.png', 'Economia e Leveling')">
                     <div class="tilt-element">
-                        <div class="h-48 overflow-hidden bg-dark-900 p-4">
-                            <img src="https://i.imgur.com/fZc4B56.png" class="w-full h-full object-contain rounded-lg" alt="Bot Image 3">
+                        <div class="h-48 overflow-hidden bg-[#2b2d31] p-4 flex items-center justify-center">
+                            <img src="https://i.imgur.com/fZc4B56.png" class="w-full h-full object-contain rounded-lg shadow-lg" alt="Bot Economy">
                         </div>
                         <div class="p-6">
-                            <h4 class="text-white font-bold mb-2">Sistema Econômico</h4>
-                            <p class="text-gray-500 text-sm">Gamificação completa para engajar membros.</p>
+                            <h4 class="text-white font-bold mb-2 text-lg">Sistema Econômico</h4>
+                            <p class="text-gray-500 text-sm">Gamificação completa com loja, saldo, xp e prêmios para engajar membros.</p>
                         </div>
                     </div>
                 </div>
                 <!-- Bot Item 4 -->
-                <div class="bg-dark-800 border border-dark-700 rounded-2xl overflow-hidden hover-trigger tilt-wrapper cursor-pointer" onclick="openLightbox('https://i.imgur.com/5Gtd5zL.png', 'Logs Integrados')">
+                <div class="glass border border-dark-600 rounded-2xl overflow-hidden hover-trigger tilt-wrapper cursor-pointer" onclick="openLightbox('https://i.imgur.com/5Gtd5zL.png', 'Logs Integrados')">
                     <div class="tilt-element">
-                        <div class="h-48 overflow-hidden bg-dark-900 p-4">
-                            <img src="https://i.imgur.com/5Gtd5zL.png" class="w-full h-full object-contain rounded-lg" alt="Bot Image 4">
+                        <div class="h-48 overflow-hidden bg-[#2b2d31] p-4 flex items-center justify-center">
+                            <img src="https://i.imgur.com/5Gtd5zL.png" class="w-full h-full object-contain rounded-lg shadow-lg" alt="Bot Logs">
                         </div>
                         <div class="p-6">
-                            <h4 class="text-white font-bold mb-2">Logs Profissionais</h4>
-                            <p class="text-gray-500 text-sm">Monitoramento 24/7 com design limpo.</p>
+                            <h4 class="text-white font-bold mb-2 text-lg">Logs Profissionais</h4>
+                            <p class="text-gray-500 text-sm">Monitoramento detalhado 24/7 com design limpo em canais privados.</p>
                         </div>
                     </div>
                 </div>
@@ -584,8 +716,128 @@
         </div>
     </section>
 
-    <!-- BENTO GRID: SOBRE O ARTISTA -->
-    <section id="sobre" class="py-32">
+    <!-- =========================================
+         PROCESSO CRIATIVO E BRIEFING (NOVO)
+         ========================================= -->
+    <section id="processo" class="py-32 relative bg-[#050505] border-y border-dark-700">
+        <!-- Linha do tempo visual background -->
+        <div class="absolute left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-dark-700 via-brand-500/50 to-dark-700 hidden lg:block pointer-events-none"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+                <h2 class="font-display text-4xl md:text-6xl font-bold text-white mb-6">Como <span class="text-gradient">Trabalhamos</span></h2>
+                <p class="text-gray-400 text-lg">Um fluxo de trabalho otimizado e transparente para garantir que sua visão seja executada com precisão absoluta.</p>
+            </div>
+
+            <div class="max-w-5xl mx-auto relative">
+                <!-- Passo 1: Briefing (Destaque Principal) -->
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-10 mb-20 reveal">
+                    <div class="w-full lg:w-5/12 text-center lg:text-right">
+                        <h3 class="text-3xl font-bold text-white mb-3">1. O Briefing</h3>
+                        <p class="text-gray-400 leading-relaxed mb-6">Tudo começa com a sua ideia. Preciso entender a fundo as necessidades do seu projeto, público-alvo e referências. Preparei um documento detalhado para isso.</p>
+                        
+                        <!-- AQUI ENTRA O LINK DO BRIEFING! -->
+                        <a href="https://cvitorsp.github.io/briefing" target="_blank" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-full transition-all hover-trigger shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_30px_rgba(249,115,22,0.6)]">
+                            Preencher o Briefing <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                        </a>
+                    </div>
+                    <div class="hidden lg:flex w-2/12 justify-center relative">
+                        <div class="w-16 h-16 rounded-full bg-dark-800 border-4 border-brand-500 flex items-center justify-center z-10 shadow-[0_0_15px_rgba(249,115,22,0.5)]">
+                            <span class="text-xl font-black text-brand-500">1</span>
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-5/12">
+                        <div class="glass p-6 rounded-2xl border border-dark-600 shadow-xl opacity-80 rotate-2 hover:rotate-0 transition-transform duration-500">
+                            <div class="w-full h-8 bg-dark-800 rounded mb-4 flex gap-2 p-2">
+                                <div class="w-4 h-4 rounded-full bg-red-500/80"></div>
+                                <div class="w-4 h-4 rounded-full bg-yellow-500/80"></div>
+                                <div class="w-4 h-4 rounded-full bg-green-500/80"></div>
+                            </div>
+                            <div class="w-full h-4 bg-dark-700 rounded mb-2"></div>
+                            <div class="w-3/4 h-4 bg-dark-700 rounded mb-6"></div>
+                            <div class="w-full h-24 bg-dark-800/50 border border-brand-500/30 rounded flex items-center justify-center text-brand-500/50 font-bold text-sm">Formulário de Escopo</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Passo 2: Prototipagem -->
+                <div class="flex flex-col lg:flex-row-reverse items-center justify-between gap-10 mb-20 reveal">
+                    <div class="w-full lg:w-5/12 text-center lg:text-left">
+                        <h3 class="text-3xl font-bold text-white mb-3">2. Esboços & Direção de Arte</h3>
+                        <p class="text-gray-400 leading-relaxed">Com as informações mapeadas, crio os primeiros rascunhos, moodboards ou wireframes. É aqui que definimos a paleta de cores, estilo e o conceito visual central. Você avalia e refinamos juntos a direção de arte antes da renderização final.</p>
+                    </div>
+                    <div class="hidden lg:flex w-2/12 justify-center relative">
+                        <div class="w-16 h-16 rounded-full bg-dark-800 border-4 border-dark-600 text-gray-500 flex items-center justify-center z-10">
+                            <span class="text-xl font-black">2</span>
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-5/12">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="glass h-32 rounded-2xl border border-dark-600 flex items-center justify-center text-brand-500">
+                                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                            </div>
+                            <div class="glass h-32 rounded-2xl border border-dark-600 flex items-center justify-center text-red-500">
+                                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Passo 3: Desenvolvimento -->
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-10 reveal">
+                    <div class="w-full lg:w-5/12 text-center lg:text-right">
+                        <h3 class="text-3xl font-bold text-white mb-3">3. Refinamento (Pixel Perfect)</h3>
+                        <p class="text-gray-400 leading-relaxed">Conceito aprovado? Hora de dar vida aos detalhes. Trabalho na vetorização, texturas, iluminação e alta fidelidade visual. O projeto passa por um polimento rigoroso até a entrega dos arquivos finais em alta resolução.</p>
+                    </div>
+                    <div class="hidden lg:flex w-2/12 justify-center relative">
+                        <div class="w-16 h-16 rounded-full bg-dark-800 border-4 border-dark-600 text-gray-500 flex items-center justify-center z-10">
+                            <span class="text-xl font-black">3</span>
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-5/12">
+                        <div class="glass p-6 rounded-2xl border border-dark-600 shadow-xl relative group">
+                            <!-- Efeito de brilho de fundo -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-transparent to-brand-900/20 opacity-80 z-0 rounded-2xl"></div>
+                            
+                            <div class="relative z-10">
+                                <!-- Topo do Painel de Edição -->
+                                <div class="flex items-center gap-3 mb-5 pb-4 border-b border-dark-600">
+                                    <svg class="w-5 h-5 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                                    <span class="text-white font-bold text-sm uppercase tracking-wider">Painel de Camadas</span>
+                                </div>
+                                
+                                <!-- Lista de Camadas -->
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between text-sm text-gray-300 hover:text-white transition-colors cursor-default">
+                                        <span class="flex items-center gap-3"><svg class="w-4 h-4 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> 
+                                        Efeitos & Iluminação</span>
+                                        <span class="text-xs font-mono bg-dark-700 px-2 py-1 rounded text-brand-400">100%</span>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between text-sm text-gray-300 hover:text-white transition-colors cursor-default bg-dark-700/30 -mx-2 px-2 py-1 rounded">
+                                        <span class="flex items-center gap-3"><svg class="w-4 h-4 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> 
+                                        Vetores Principais</span>
+                                        <span class="text-xs font-mono bg-dark-700 px-2 py-1 rounded text-brand-400">Normal</span>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between text-sm text-gray-500 cursor-default">
+                                        <span class="flex items-center gap-3"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path></svg> 
+                                        Rascunhos Base</span>
+                                        <span class="text-xs font-mono bg-dark-800 px-2 py-1 rounded">Oculto</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================
+         BENTO GRID: SOBRE O ARTISTA
+         ========================================= -->
+    <section id="sobre" class="py-32 bg-dark-800">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16 reveal">
                 <h2 class="font-display text-4xl md:text-6xl font-bold text-white mb-4">A Mente <span class="text-gradient">Criativa</span></h2>
@@ -594,26 +846,26 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto reveal">
                 
                 <!-- Foto Card (Span 2) -->
-                <div class="md:col-span-2 md:row-span-2 glass rounded-3xl p-2 relative overflow-hidden group hover-trigger">
+                <div class="md:col-span-2 md:row-span-2 glass rounded-3xl p-2 relative overflow-hidden group hover-trigger border border-dark-600">
                     <div class="absolute inset-0 bg-brand-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 mix-blend-overlay"></div>
                     <img src="https://i.imgur.com/lCHaXz0.jpeg" alt="João Vitor" class="w-full h-full object-cover rounded-[20px] grayscale-[50%] group-hover:grayscale-0 transition-all duration-700 filter">
                     <div class="absolute bottom-6 left-6 z-20">
-                        <div class="glass px-4 py-2 rounded-full inline-block">
-                            <span class="text-white font-bold">João Vitor, 22</span>
+                        <div class="glass px-5 py-2.5 rounded-full inline-block border border-white/10 shadow-lg">
+                            <span class="text-white font-bold tracking-wide">João Vitor, 22</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- XP Card -->
                 <div class="glass rounded-3xl p-8 flex flex-col justify-center items-center text-center hover-trigger border border-dark-600 hover:border-brand-500 transition-colors">
-                    <span class="text-6xl font-display font-black text-white mb-2">5+</span>
-                    <span class="text-gray-400 font-medium">Anos de Experiência</span>
+                    <span class="text-6xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500 mb-2">5+</span>
+                    <span class="text-gray-400 font-medium tracking-wide uppercase text-sm">Anos de Experiência</span>
                 </div>
 
                 <!-- Projects Card -->
                 <div class="glass rounded-3xl p-8 flex flex-col justify-center items-center text-center hover-trigger border border-dark-600 hover:border-brand-500 transition-colors">
-                    <span class="text-6xl font-display font-black text-white mb-2">70+</span>
-                    <span class="text-gray-400 font-medium">Projetos Lançados</span>
+                    <span class="text-6xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500 mb-2">70+</span>
+                    <span class="text-gray-400 font-medium tracking-wide uppercase text-sm">Projetos Lançados</span>
                 </div>
 
                 <!-- Bio Card (Span 2) -->
@@ -628,18 +880,71 @@
         </div>
     </section>
 
-    <!-- MEGA CONTACT SECTION -->
-    <section id="contato" class="py-32 relative bg-dark-900 border-t border-dark-700 overflow-hidden">
+    <!-- =========================================
+         PERGUNTAS FREQUENTES (FAQ) - NOVO
+         ========================================= -->
+    <section class="py-32 relative bg-dark-900 border-t border-dark-700">
+        <div class="container mx-auto px-6 relative z-10 max-w-4xl">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-display text-3xl md:text-5xl font-bold text-white mb-4">Dúvidas Frequentes</h2>
+                <p class="text-gray-400">O que a maioria dos clientes pergunta antes de começarmos.</p>
+            </div>
+
+            <div class="space-y-4 reveal">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item glass rounded-2xl border border-dark-600 overflow-hidden cursor-pointer hover-trigger">
+                    <div class="flex justify-between items-center p-6 bg-dark-800/50">
+                        <h3 class="font-bold text-lg text-white">Como funciona o pagamento?</h3>
+                        <svg class="faq-icon w-6 h-6 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    </div>
+                    <div class="faq-answer px-6 pb-0">
+                        <p class="text-gray-400 pb-6 pt-2 leading-relaxed">Trabalho com um sinal de 50% para início do projeto e reserva na agenda, e os 50% restantes são pagos mediante a aprovação final e entrega de todos os arquivos ou códigos-fonte.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="faq-item glass rounded-2xl border border-dark-600 overflow-hidden cursor-pointer hover-trigger">
+                    <div class="flex justify-between items-center p-6 bg-dark-800/50">
+                        <h3 class="font-bold text-lg text-white">Quanto tempo demora para um site/bot ficar pronto?</h3>
+                        <svg class="faq-icon w-6 h-6 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    </div>
+                    <div class="faq-answer px-6 pb-0">
+                        <p class="text-gray-400 pb-6 pt-2 leading-relaxed">Isso varia muito conforme a complexidade. Uma Landing Page (como a Kozinhas) costuma levar entre 7 e 14 dias. Um bot de Discord com sistemas econômicos e moderação pode levar de 15 a 30 dias. O prazo exato é definido no orçamento após o Briefing.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="faq-item glass rounded-2xl border border-dark-600 overflow-hidden cursor-pointer hover-trigger">
+                    <div class="flex justify-between items-center p-6 bg-dark-800/50">
+                        <h3 class="font-bold text-lg text-white">Você faz manutenção de bots que já existem?</h3>
+                        <svg class="faq-icon w-6 h-6 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    </div>
+                    <div class="faq-answer px-6 pb-0">
+                        <p class="text-gray-400 pb-6 pt-2 leading-relaxed">Em alguns casos sim, mas depende de como o código antigo foi escrito. A preferência é sempre construir sistemas do zero para garantir performance máxima, segurança e facilidade na adição de novos recursos no futuro.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================
+         MEGA CONTACT SECTION & WEBHOOK FORM
+         ========================================= -->
+    <section id="contato" class="py-32 relative bg-[#020202] border-t border-dark-700 overflow-hidden">
         <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvc3ZnPg==')] opacity-50"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-[500px] bg-brand-500/10 rounded-full filter blur-[150px] pointer-events-none"></div>
         
         <div class="container mx-auto px-6 relative z-10">
-            <div class="max-w-5xl mx-auto glass rounded-[40px] p-8 md:p-16 border border-dark-600 shadow-2xl reveal">
+            <div class="max-w-5xl mx-auto glass rounded-[40px] p-8 md:p-16 border border-dark-600 shadow-2xl reveal relative overflow-hidden">
+                <!-- Borda brilhante interna topo -->
+                <div class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-50"></div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
                     
                     <div>
                         <h2 class="font-display text-4xl md:text-5xl font-black text-white mb-6">Pronto para iniciar <br> o <span class="text-gradient">Próximo Nível?</span></h2>
                         <p class="text-gray-400 mb-10 text-lg">
-                            Seja uma marca nova, um site revolucionário ou um bot exclusivo. Me conte a sua ideia.
+                            Você pode ir direto ao <a href="https://cvitorsp.github.io/briefing" target="_blank" class="text-brand-500 underline font-semibold hover-trigger">Briefing</a>, mandar uma mensagem aqui ou chamar no WhatsApp. Qual for melhor pra você.
                         </p>
                         
                         <div class="space-y-8">
@@ -665,9 +970,9 @@
                         </div>
                     </div>
 
-                    <!-- Formulário Premium -->
+                    <!-- Formulário via Webhook Discord -->
                     <div>
-                        <form id="contact-form" action="https://formsubmit.co/cvitorsp@gmail.com" method="POST" class="space-y-6">
+                        <form id="contact-form" class="space-y-6">
                             <div class="relative group">
                                 <input type="text" name="name" required id="name" class="w-full bg-transparent border-b-2 border-dark-600 focus:border-brand-500 text-white pt-6 pb-2 outline-none transition-colors peer" placeholder=" ">
                                 <label for="name" class="absolute left-0 top-4 text-gray-500 text-lg transition-all peer-focus:text-xs peer-focus:-top-2 peer-focus:text-brand-500 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:-top-2 uppercase font-bold tracking-wider pointer-events-none">Seu Nome</label>
@@ -683,11 +988,8 @@
                                 <label for="message" class="absolute left-0 top-4 text-gray-500 text-lg transition-all peer-focus:text-xs peer-focus:-top-2 peer-focus:text-brand-500 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:-top-2 uppercase font-bold tracking-wider pointer-events-none">Conte sobre o Projeto</label>
                             </div>
 
-                            <input type="hidden" name="_next" value="https://cvitorsp.github.io/vitor"> 
-                            <input type="hidden" name="_captcha" value="false">
-
-                            <button type="submit" class="w-full py-4 bg-white text-black font-bold rounded-full hover:bg-brand-500 hover:text-white transition-all duration-300 transform hover:-translate-y-1 mt-4 hover-trigger">
-                                Enviar Mensagem
+                            <button type="submit" class="w-full py-4 bg-white text-black font-bold rounded-full hover:bg-brand-500 hover:text-white transition-all duration-300 transform hover:-translate-y-1 mt-4 hover-trigger shadow-lg shadow-white/10 hover:shadow-brand-500/40">
+                                Enviar Mensagem para o João
                             </button>
                         </form>
                     </div>
@@ -697,29 +999,33 @@
         </div>
     </section>
 
-    <!-- MEGA FOOTER -->
+    <!-- =========================================
+         MEGA FOOTER
+         ========================================= -->
     <footer class="bg-[#020202] pt-20 pb-10 border-t border-dark-800">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-center mb-16">
                 <a href="#inicio" class="flex items-center gap-3 hover-trigger mb-8 md:mb-0">
                     <img src="https://i.imgur.com/N7Pua0N.png" class="w-12 h-12" alt="Logo">
-                    <span class="font-display font-bold text-3xl text-white">JV.Criativo</span>
+                    <span class="font-display font-bold text-3xl text-white tracking-tight">JV.Criativo</span>
                 </a>
                 <div class="flex items-center gap-6">
-                    <a href="https://instagram.com/jv.criativo" target="_blank" class="w-12 h-12 rounded-full glass flex items-center justify-center text-white hover:bg-brand-500 transition-colors hover-trigger">
+                    <a href="https://instagram.com/jv.criativo" target="_blank" class="w-12 h-12 rounded-full glass flex items-center justify-center text-white hover:bg-brand-500 hover:border-brand-500 transition-colors hover-trigger">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                     </a>
                 </div>
             </div>
             
-            <div class="text-center md:text-left border-t border-dark-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+            <div class="text-center md:text-left border-t border-dark-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm font-medium">
                 <p>© 2026 JV.Criativo. Todos os direitos reservados.</p>
-                <p class="mt-2 md:mt-0">Design & Code by João Vitor</p>
+                <p class="mt-2 md:mt-0">Design, Código & Café por João Vitor</p>
             </div>
         </div>
     </footer>
 
-    <!-- LIGHTBOX MODAL (ESCONDIDO) -->
+    <!-- =========================================
+         LIGHTBOX MODAL (ESCONDIDO)
+         ========================================= -->
     <div id="lightbox" class="fixed inset-0 z-[100000] bg-black/95 hidden flex-col items-center justify-center p-4">
         <button id="close-lightbox" class="absolute top-6 right-6 text-white hover:text-brand-500 transition-colors">
             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -728,35 +1034,45 @@
         <p id="lightbox-caption" class="text-white font-display text-2xl font-bold mt-6 text-center"></p>
     </div>
 
-    <!-- TOAST NOTIFICATION -->
+    <!-- =========================================
+         TOAST NOTIFICATION (SUCESSO FORM)
+         ========================================= -->
     <div id="toast" class="fixed bottom-10 right-10 z-[100] p-4 rounded-xl glass border-brand-500 text-white opacity-0 transform translate-y-10 transition-all duration-500 flex items-center gap-4">
-        <div class="bg-brand-500 p-2 rounded-full text-white">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        <div class="bg-brand-500 p-2 rounded-full text-white shadow-[0_0_15px_rgba(249,115,22,0.6)]">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
         </div>
         <div>
             <p class="font-bold text-sm">Mensagem Voando!</p>
-            <p class="text-xs text-gray-400">Em breve entrarei em contato.</p>
+            <p class="text-xs text-gray-300">Chegou lá no Discord do João.</p>
         </div>
     </div>
 
-    <!-- SCRIPTS MÁGICOS -->
+    <!-- =========================================
+         SCRIPTS MÁGICOS (SEGURANÇA E LÓGICA)
+         ========================================= -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
             // --- 1. PRELOADER CINEMÁTICO ---
             const preloader = document.getElementById('preloader');
-            setTimeout(() => {
-                preloader.style.transform = 'translateY(-100%)';
-                setTimeout(() => preloader.remove(), 1000);
-            }, 1500);
+            if(preloader) {
+                setTimeout(() => {
+                    preloader.style.transform = 'translateY(-100%)';
+                    setTimeout(() => preloader.remove(), 1000);
+                }, 1000); // Reduzido levemente o tempo de espera pra não cansar o user
+            }
 
             // --- 2. CURSOR PERSONALIZADO ---
             const cursorDot = document.querySelector('.cursor-dot');
             const cursorOutline = document.querySelector('.cursor-outline');
-            const hoverTriggers = document.querySelectorAll('.hover-trigger, a, button, input, textarea');
+            const hoverTriggers = document.querySelectorAll('.hover-trigger, a, button, input, textarea, .faq-item');
 
-            if(window.innerWidth > 768) {
+            if(window.innerWidth > 768 && cursorDot && cursorOutline) {
+                // Ao primeiro movimento do mouse, garantimos que o cursor aparece
                 window.addEventListener('mousemove', (e) => {
+                    cursorDot.style.opacity = '1';
+                    cursorOutline.style.opacity = '1';
+                    
                     const posX = e.clientX;
                     const posY = e.clientY;
                     
@@ -767,7 +1083,7 @@
                     cursorOutline.animate({
                         left: `${posX}px`,
                         top: `${posY}px`
-                    }, { duration: 500, fill: "forwards" });
+                    }, { duration: 300, fill: "forwards" }); // Deixei a animação mais responsiva (300ms)
                 });
 
                 hoverTriggers.forEach(trigger => {
@@ -782,21 +1098,31 @@
 
             // --- 3. SCROLL REVEAL (INTERSECTION OBSERVER) ---
             const revealElements = document.querySelectorAll('.reveal');
-            const revealObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
-            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+            if ('IntersectionObserver' in window) {
+                const revealObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('active');
+                            revealObserver.unobserve(entry.target); // Para animar apenas 1 vez (melhor performance)
+                        }
+                    });
+                }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
 
-            revealElements.forEach(el => revealObserver.observe(el));
+                revealElements.forEach(el => revealObserver.observe(el));
+            } else {
+                // Fallback para navegadores MUITO antigos
+                revealElements.forEach(el => el.classList.add('active'));
+            }
 
             // --- 4. TILT 3D EFFECT ---
             const tiltElements = document.querySelectorAll('.tilt-wrapper');
             tiltElements.forEach(wrapper => {
                 const element = wrapper.querySelector('.tilt-element');
+                if(!element) return;
+
                 wrapper.addEventListener('mousemove', (e) => {
+                    if(window.innerWidth < 1024) return; // Desativa tilt no mobile
+
                     const rect = wrapper.getBoundingClientRect();
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
@@ -817,15 +1143,17 @@
 
             // --- 5. NAVBAR GLASS EFFECT ---
             const navbar = document.getElementById('header');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    navbar.classList.add('glass', 'py-4');
-                    navbar.classList.remove('py-6');
-                } else {
-                    navbar.classList.remove('glass', 'py-4');
-                    navbar.classList.add('py-6');
-                }
-            });
+            if(navbar) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 50) {
+                        navbar.classList.add('glass', 'py-4', 'border-b', 'border-dark-700/50');
+                        navbar.classList.remove('py-6');
+                    } else {
+                        navbar.classList.remove('glass', 'py-4', 'border-b', 'border-dark-700/50');
+                        navbar.classList.add('py-6');
+                    }
+                });
+            }
 
             // --- 6. PORTFOLIO FILTER SYSTEM ---
             const filterBtns = document.querySelectorAll('.filter-btn');
@@ -869,14 +1197,16 @@
             const closeBtn = document.getElementById('close-lightbox');
 
             window.openLightbox = (src, caption) => {
+                if(!lightbox || !lightboxImg) return;
                 lightboxImg.src = src;
-                lightboxCaption.textContent = caption;
+                if(lightboxCaption) lightboxCaption.textContent = caption;
                 lightbox.style.display = 'flex';
                 setTimeout(() => lightbox.style.opacity = '1', 10);
                 document.body.style.overflow = 'hidden'; // block scroll
             };
 
             const closeLightbox = () => {
+                if(!lightbox) return;
                 lightbox.style.opacity = '0';
                 setTimeout(() => {
                     lightbox.style.display = 'none';
@@ -885,30 +1215,41 @@
                 document.body.style.overflow = 'auto'; // restore scroll
             };
 
-            closeBtn.addEventListener('click', closeLightbox);
-            lightbox.addEventListener('click', (e) => {
-                if(e.target === lightbox) closeLightbox();
-            });
+            if(closeBtn) closeBtn.addEventListener('click', closeLightbox);
+            if(lightbox) {
+                lightbox.addEventListener('click', (e) => {
+                    if(e.target === lightbox) closeLightbox();
+                });
+            }
 
             // --- 8. MOBILE MENU ---
+            // Protegido para não dar erro "Cannot read properties of null"
             const mobileBtn = document.getElementById('mobile-btn');
             const mobileMenu = document.getElementById('mobile-menu');
+            const menuIconOpen = document.getElementById('menu-icon-open');
+            const menuIconClose = document.getElementById('menu-icon-close');
             
-            mobileBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('-translate-y-full');
-            });
-            
-            document.querySelectorAll('.nav-link-mobile').forEach(link => {
-                link.addEventListener('click', () => {
-                     mobileMenu.classList.add('-translate-y-full');
+            if(mobileBtn && mobileMenu) {
+                mobileBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('-translate-y-full');
+                    if(menuIconOpen) menuIconOpen.classList.toggle('hidden');
+                    if(menuIconClose) menuIconClose.classList.toggle('hidden');
                 });
-            });
+                
+                document.querySelectorAll('.nav-link-mobile').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('-translate-y-full');
+                        if(menuIconOpen) menuIconOpen.classList.remove('hidden');
+                        if(menuIconClose) menuIconClose.classList.add('hidden');
+                    });
+                });
+            }
 
-            // --- HERO PARALLAX EFEITO ---
-            const heroSection = document.querySelector('section.min-h-screen');
+            // --- 9. HERO PARALLAX EFEITO ---
+            const heroSection = document.getElementById('inicio');
             const decorativeShapes = document.querySelectorAll('.decorative-shape');
             
-            if (heroSection && window.innerWidth > 768) {
+            if (heroSection && window.innerWidth > 768 && decorativeShapes.length > 0) {
                 heroSection.addEventListener('mousemove', (e) => {
                     const { clientX, clientY, currentTarget } = e;
                     const { offsetWidth, offsetHeight } = currentTarget;
@@ -924,30 +1265,99 @@
                 });
             }
 
-            // --- 9. CONTACT FORM AJAX ---
+            // --- 10. FAQ ACCORDION LOGIC ---
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const header = item.querySelector('.flex.justify-between');
+                if(!header) return;
+
+                header.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    const answer = item.querySelector('.faq-answer');
+                    
+                    // Fecha todos os outros primeiro (estilo sanfona clássica)
+                    faqItems.forEach(otherItem => {
+                        otherItem.classList.remove('active');
+                        const otherAnswer = otherItem.querySelector('.faq-answer');
+                        if(otherAnswer) otherAnswer.style.maxHeight = null;
+                    });
+
+                    // Se não estava ativo, abre. Se já estava ativo, acabou de fechar no loop acima.
+                    if (!isActive) {
+                        item.classList.add('active');
+                        if(answer) answer.style.maxHeight = answer.scrollHeight + 30 + "px"; // +30 pra padding
+                    }
+                });
+            });
+
+            // --- 11. CONTACT FORM AJAX & DISCORD WEBHOOK ---
             const contactForm = document.getElementById('contact-form');
             const toast = document.getElementById('toast');
             
             if (contactForm) {
-                contactForm.addEventListener('submit', (e) => {
+                contactForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
-                    const formData = new FormData(contactForm);
                     
-                    fetch(contactForm.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: { 'Accept': 'application/json' }
-                    }).then(response => {
+                    const submitBtn = contactForm.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.innerText;
+                    
+                    // Mostra que está enviando (Feedback Visual Imediato)
+                    submitBtn.innerText = 'Transmitindo mensagem...';
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+                    submitBtn.classList.remove('hover:-translate-y-1', 'hover:shadow-brand-500/40');
+
+                    const formData = new FormData(contactForm);
+                    const name = formData.get('name');
+                    const email = formData.get('email');
+                    const msg = formData.get('message');
+                    
+                    // Monta o Embed do Discord Webhook Profissional
+                    const payload = {
+                        content: "🔔 <@&HERE_IF_YOU_WANT_MENTION> **NOVO LEAD RECEBIDO!**", // Mude o content se quiser pingar.
+                        embeds: [{
+                            title: "🚀 Novo Contato pelo Portfólio",
+                            description: "Um cliente em potencial acabou de preencher o formulário do site.",
+                            color: 16348182, // Cor Laranja Hex #F97316 em Decimal
+                            fields: [
+                                { name: "👤 Cliente", value: `\`${name || "Não informado"}\``, inline: true },
+                                { name: "📧 E-mail", value: `[${email || "Não informado"}](mailto:${email})`, inline: true },
+                                { name: "📝 O Projeto / Mensagem", value: `>>> ${msg || "Vazio"}` }
+                            ],
+                            thumbnail: {
+                                url: "https://i.imgur.com/N7Pua0N.png" // Sua Logo no embed
+                            },
+                            footer: { text: "Sistema de Leads JV.Criativo", icon_url: "https://i.imgur.com/N7Pua0N.png" },
+                            timestamp: new Date().toISOString()
+                        }]
+                    };
+
+                    try {
+                        const response = await fetch('https://discord.com/api/webhooks/1499501821423648848/SSROMtVl2VB8jI8eeAnLVoYVHBHTu7L2uJxwLuH5Engec8I7JdeXEl-1u2Ecp4xuE2TJ', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
                         if (response.ok) {
-                            toast.classList.remove('opacity-0', 'translate-y-10');
-                            setTimeout(() => toast.classList.add('opacity-0', 'translate-y-10'), 4000);
+                            if(toast) {
+                                toast.classList.remove('opacity-0', 'translate-y-10');
+                                setTimeout(() => toast.classList.add('opacity-0', 'translate-y-10'), 5000);
+                            }
                             contactForm.reset();
                         } else {
-                            alert('Erro. Chame no WhatsApp!');
+                            alert('Houve um erro de comunicação com o servidor. Por favor, me chame no WhatsApp!');
                         }
-                    }).catch(error => {
-                        alert('Erro de conexão.');
-                    });
+                    } catch (error) {
+                        console.error(error);
+                        alert('Erro de conexão. Verifique sua internet ou fale comigo no WhatsApp.');
+                    } finally {
+                        // Restaura o botão original independente de erro ou sucesso
+                        submitBtn.innerText = originalText;
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+                        submitBtn.classList.add('hover:-translate-y-1', 'hover:shadow-brand-500/40');
+                    }
                 });
             }
         });
