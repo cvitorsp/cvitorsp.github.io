@@ -1,485 +1,956 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CVitorSP - Portfólio de Designer Gráfico</title>
+    <title>JV.Criativo | Elite Design & Tech</title>
     
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Tailwind Config for Custom Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fff3ec',
+                            100: '#ffe4d3',
+                            500: '#f97316', // Laranja
+                            600: '#ea580c',
+                            900: '#7c2d12',
+                            accent: '#ef4444', // Vermelho
+                        },
+                        dark: {
+                            900: '#050505',
+                            800: '#0a0a0a',
+                            700: '#141414',
+                            600: '#1e1e1e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Inter', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'glow-gradient': 'radial-gradient(circle at center, rgba(249, 115, 22, 0.15) 0%, rgba(0,0,0,0) 70%)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+    <!-- Custom CSS para Efeitos Premium -->
     <style>
-        :root {
-            --background: #0A0E14;
-            --surface: #11151C;
-            --primary: #F97316;
-            --secondary: #EF4444;
-            --text-primary: #F1F5F9;
-            --text-secondary: #94A3B8;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        /* Base & Scrollbar */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--background);
-            color: var(--text-primary);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            background-color: #050505;
+            color: #e5e5e5;
+            cursor: none; /* Custom Cursor */
+            overflow-x: hidden;
         }
-
-        /* ===== Scrollbar CSS ===== */
-        ::-webkit-scrollbar { width: 12px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
         ::-webkit-scrollbar-thumb {
-            background-color: var(--primary);
+            background: linear-gradient(to bottom, #f97316, #ef4444);
             border-radius: 10px;
-            border: 3px solid #0a0a0a;
         }
 
-        .gradient-text {
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
-            background-size: 200% 200%;
+        /* Custom Cursor */
+        .cursor-dot, .cursor-outline {
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px; height: 8px;
+            background-color: #f97316;
+        }
+        .cursor-outline {
+            width: 40px; height: 40px;
+            border: 1px solid rgba(249, 115, 22, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        .cursor-hover .cursor-outline {
+            width: 60px; height: 60px;
+            background-color: rgba(249, 115, 22, 0.1);
+            border-color: #f97316;
+        }
+
+        /* Typography & Gradients */
+        .text-gradient {
+            background: linear-gradient(to right, #f97316, #ef4444, #f97316);
+            background-size: 200% auto;
+            color: transparent;
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-animation 4s ease infinite;
+            background-clip: text;
+            animation: shine 4s linear infinite;
         }
-        
-        @keyframes gradient-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        .card-hover {
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .card-hover:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1), 0 0 40px -10px rgba(249, 115, 22, 0.3);
+        @keyframes shine { to { background-position: 200% center; } }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(20, 20, 20, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .toast-notification {
-            transition: opacity 0.5s, transform 0.5s;
+        /* Animations & Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mockup CSS (MacBook & iPhone) */
+        .macbook-mockup {
+            position: relative;
+            width: 100%;
+            padding-bottom: 58%;
+            background: #111;
+            border-radius: 12px 12px 0 0;
+            border: 8px solid #222;
+            border-bottom: 12px solid #333;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+        }
+        .macbook-mockup::after {
+            content: '';
+            position: absolute; bottom: -12px; left: 50%;
+            transform: translateX(-50%);
+            width: 15%; height: 4px;
+            background: #111;
+            border-radius: 0 0 4px 4px;
+        }
+        .iphone-mockup {
+            position: relative;
+            width: 250px;
+            height: 500px;
+            background: #111;
+            border-radius: 36px;
+            border: 10px solid #222;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
+            overflow: hidden;
+        }
+        .iphone-mockup::before {
+            content: '';
+            position: absolute; top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 40%; height: 20px;
+            background: #222;
+            border-radius: 0 0 12px 12px;
+            z-index: 10;
         }
         
-        .decorative-shape {
-            transition: transform 0.4s ease-out;
-            will-change: transform;
+        /* Auto-scroll inside mockups */
+        .scroll-img-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            overflow-y: auto;
+        }
+        .scroll-img-container::-webkit-scrollbar { width: 4px; }
+        .scroll-img-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); }
+
+        /* Filter Grid */
+        .grid-item {
+            transition: all 0.5s ease;
+        }
+        .grid-item.hide {
+            display: none;
+        }
+
+        /* 3D Tilt Effect Wrapper */
+        .tilt-wrapper { perspective: 1000px; }
+        .tilt-element {
+            transition: transform 0.1s ease;
+            transform-style: preserve-3d;
+        }
+
+        /* Marquee */
+        .marquee-wrapper {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Lightbox Modal */
+        #lightbox {
+            backdrop-filter: blur(20px);
+            transition: opacity 0.3s ease;
+        }
+        #lightbox img {
+            max-height: 90vh;
+            max-width: 90vw;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
         }
     </style>
 </head>
-<body class="bg-slate-950">
+<body class="antialiased selection:bg-brand-500 selection:text-white">
 
-    <div id="preloader" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-slate-950 transition-opacity duration-700">
-        <div class="flex items-center gap-4">
-            <img src="https://i.imgur.com/N7Pua0N.png" alt="JV.Criativo Logo" class="h-16 w-16"/>
-           <span class="text-4xl font-black tracking-tighter text-slate-200">JV.Criativo</span>
+    <!-- Custom Cursor elements -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- PRELOADER SUPERIOR -->
+    <div id="preloader" class="fixed inset-0 z-[10000] bg-dark-900 flex flex-col items-center justify-center transition-transform duration-1000 ease-in-out">
+        <div class="relative w-32 h-32 flex items-center justify-center mb-8">
+            <svg class="animate-spin absolute w-full h-full text-dark-700" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="50" cy="50" r="48" stroke-dasharray="250" stroke-dashoffset="50" stroke-linecap="round"></circle>
+            </svg>
+            <img src="https://i.imgur.com/N7Pua0N.png" alt="Logo" class="w-16 h-16 animate-pulse z-10" />
         </div>
-        <div class="w-64 mt-8 bg-slate-700/50 rounded-full h-2 overflow-hidden">
-            <div id="preloader-bar" class="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+        <div class="overflow-hidden h-10">
+            <h1 class="font-display text-4xl font-bold text-white translate-y-full animate-[slideUp_0.5s_ease_forwards_0.5s]">JV.Criativo</h1>
         </div>
-        <p class="mt-4 text-lg text-slate-400 tracking-wider">Carregando Experiência...</p>
     </div>
 
-    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-24">
-        <div class="container mx-auto px-6 flex justify-between items-center h-full">
-            <a href="#inicio" class="flex items-center gap-3">
-                <img src="https://i.imgur.com/N7Pua0N.png" alt="JV.Criativo Logo" id="navbar-logo" class="h-12 transition-all duration-300"/>
-                <span id="navbar-text" class="text-slate-100 font-black tracking-tighter text-3xl transition-all duration-300 hidden sm:inline">JV.Criativo</span>
+    <!-- NAVBAR GLASSMORPHISM -->
+    <header id="header" class="fixed top-0 w-full z-50 transition-all duration-300 py-6">
+        <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-3 group hover-trigger">
+                <img src="https://i.imgur.com/N7Pua0N.png" class="w-10 h-10 group-hover:scale-110 transition-transform duration-300" alt="Logo">
+                <span class="font-display font-bold text-2xl tracking-tight text-white hidden sm:block">JV.Criativo</span>
             </a>
-            <nav class="hidden md:flex items-center space-x-2" id="desktop-nav">
-                <a href="#inicio" class="nav-link relative px-4 py-2 text-sm font-medium text-slate-300 hover:text-orange-400 transition-colors">Início</a>
-                <a href="#sobre" class="nav-link relative px-4 py-2 text-sm font-medium text-slate-300 hover:text-orange-400 transition-colors">Sobre</a>
-                <a href="#portfolio" class="nav-link relative px-4 py-2 text-sm font-medium text-slate-300 hover:text-orange-400 transition-colors">Portfólio</a>
-                <a href="#inspiracoes" class="nav-link relative px-4 py-2 text-sm font-medium text-slate-300 hover:text-orange-400 transition-colors">Inspirações</a>
-                <a href="#contato" class="nav-link relative px-4 py-2 text-sm font-medium text-slate-300 hover:text-orange-400 transition-colors">Contato</a>
-                <a href="briefing.html" class="ml-4 px-5 py-2 text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-red-500 rounded-md shadow-lg hover:shadow-orange-500/40 transition-all duration-300 transform hover:scale-105">
-                    Iniciar Projeto
+            
+            <nav class="hidden lg:flex items-center gap-8 glass px-8 py-3 rounded-full">
+                <a href="#cases" class="text-sm font-medium text-gray-300 hover:text-brand-500 transition-colors hover-trigger">Cases R1 & Kozinhas</a>
+                <a href="#portfolio" class="text-sm font-medium text-gray-300 hover:text-brand-500 transition-colors hover-trigger">Portfólio</a>
+                <a href="#bots" class="text-sm font-medium text-gray-300 hover:text-brand-500 transition-colors hover-trigger">Bots Discord</a>
+                <a href="#sobre" class="text-sm font-medium text-gray-300 hover:text-brand-500 transition-colors hover-trigger">Sobre o Artista</a>
+            </nav>
+
+            <div class="hidden lg:block">
+                <a href="#contato" class="relative inline-flex items-center justify-center px-8 py-3 overflow-hidden font-bold text-white rounded-full bg-brand-600 hover-trigger group">
+                    <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-10"></span>
+                    <span class="relative">Iniciar Projeto</span>
                 </a>
-            </nav>
-            <button id="mobile-menu-btn" class="md:hidden z-50">
-                <svg id="menu-icon-open" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-                <svg id="menu-icon-close" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </div>
+
+            <!-- Mobile Btn -->
+            <button class="lg:hidden text-white hover-trigger" id="mobile-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
             </button>
-        </div>
-        <div id="mobile-menu" class="md:hidden absolute top-0 left-0 w-full bg-slate-900/95 backdrop-blur-lg pt-24 transform -translate-y-full transition-transform duration-300 ease-in-out">
-            <nav class="flex flex-col items-center gap-4 p-6">
-                <a href="#inicio" class="nav-link-mobile w-full text-center py-3 text-lg font-medium rounded-lg">Início</a>
-                <a href="#sobre" class="nav-link-mobile w-full text-center py-3 text-lg font-medium rounded-lg">Sobre</a>
-                <a href="#portfolio" class="nav-link-mobile w-full text-center py-3 text-lg font-medium rounded-lg">Portfólio</a>
-                <a href="#inspiracoes" class="nav-link-mobile w-full text-center py-3 text-lg font-medium rounded-lg">Inspirações</a>
-                <a href="#contato" class="nav-link-mobile w-full text-center py-3 text-lg font-medium rounded-lg">Contato</a>
-                 <a href="briefing.html" class="mt-4 w-full text-center py-3 text-lg font-bold text-white bg-gradient-to-r from-orange-500 to-red-500 rounded-lg">Iniciar Projeto</a>
-            </nav>
         </div>
     </header>
 
-    <main>
-        <section id="inicio" class="min-h-screen flex items-center justify-center text-center px-4 relative overflow-hidden">
-             <div class="absolute top-[-10%] left-[-10%] w-[400px] h-[400px] bg-orange-500/10 rounded-full filter blur-3xl animate-pulse"></div>
-            <div class="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-red-500/10 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
-
-            <div class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-center" style="background-image: radial-gradient(ellipse 80% 50% at 50% -20%,rgba(120,119,198,0.1),hsla(0,0%,100%,0));"></div>
-            <div class="absolute inset-0 bg-slate-950/50"></div>
+    <!-- HERO SECTION -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <div class="absolute inset-0 bg-glow-gradient opacity-60"></div>
         
-            <div class="decorative-shape absolute top-[15%] left-[10%] w-8 h-8 text-orange-500 opacity-30"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg></div>
-            <div class="decorative-shape absolute top-[25%] right-[12%] w-10 h-10 text-red-500 opacity-30"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.7.8 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg></div>
-            <div class="decorative-shape absolute bottom-[20%] left-[20%] w-9 h-9 text-orange-400 opacity-30"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle><circle cx="10.5" cy="14.5" r=".5" fill="currentColor"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.668 0-.437-.18-.835-.437-1.108-.257-.273-.666-.698-.666-1.672 0-1.112.512-1.674 1.284-2.173.131-.086.264-.173.397-.26.492-.32.984-.64 1.476-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96l.63-.42c1.26-.84 2.1-2.24 2.1-3.84C22 3.96 20.48 2 18 2c-1.55 0-2.93.79-3.75 2Z"></path></svg></div>
+        <!-- Animated Background Grid -->
+        <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
 
-        
-            <div class="relative z-10" id="hero-content">
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-black text-slate-100 tracking-tighter">Design Que<br /><span class="gradient-text">Eleva & Inspira</span></h1>
-                <p class="mt-6 max-w-xl mx-auto text-lg md:text-xl text-slate-300/90">
-                    Bem-vindo ao meu universo criativo, onde cada pixel conta uma história. Transformo conceitos em visuais extraordinários que capturam a essência da sua marca.
-                </p>
-                <div class="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
-                    <a href="#portfolio" class="px-8 py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold rounded-lg shadow-lg hover:shadow-orange-500/50 transition-all duration-300 transform hover:scale-105">
-                        Ver Meus Trabalhos
-                    </a>
-                    <a href="#contato" class="px-8 py-3 border-2 border-orange-400 text-orange-300 font-bold rounded-lg bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all duration-300 transform hover:scale-105">
-                        Vamos Conversar
-                    </a>
-                </div>
+        <!-- Decorative Floating Elements -->
+        <div class="decorative-shape absolute top-[20%] left-[10%] w-8 h-8 text-brand-500 opacity-40"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg></div>
+        <div class="decorative-shape absolute top-[25%] right-[12%] w-10 h-10 text-brand-accent opacity-40 hidden md:block"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.7.8 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg></div>
+        <div class="decorative-shape absolute bottom-[20%] left-[20%] w-9 h-9 text-brand-500 opacity-40"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle><circle cx="10.5" cy="14.5" r=".5" fill="currentColor"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.668 0-.437-.18-.835-.437-1.108-.257-.273-.666-.698-.666-1.672 0-1.112.512-1.674 1.284-2.173.131-.086.264-.173.397-.26.492-.32.984-.64 1.476-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96.493-.32.985-.64 1.477-.96l.63-.42c1.26-.84 2.1-2.24 2.1-3.84C22 3.96 20.48 2 18 2c-1.55 0-2.93.79-3.75 2Z"></path></svg></div>
+
+        <div class="container mx-auto px-6 relative z-10 text-center" id="hero-content">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border-brand-500/30 mb-8 reveal">
+                <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+                <span class="text-sm font-medium text-brand-100 uppercase tracking-widest">Estúdio Criativo Digital</span>
             </div>
-        </section>
-
-        <section id="sobre" class="py-24 sm:py-32 bg-slate-900">
-            <div class="container mx-auto px-6">
-                 <div class="text-center mb-16">
-                    <h2 class="text-4xl md:text-5xl font-black tracking-tighter gradient-text">Sobre Minha Jornada Criativa</h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-400">Com 22 anos e uma paixão por transformar ideias em realidade visual, trago 5 anos de experiência e dedicação para cada projeto, buscando sempre superar expectativas e entregar resultados excepcionais e memoráveis.</p>
-                </div>
-                 <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
-                    <div class="lg:col-span-2 group relative">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl blur-lg opacity-60 group-hover:opacity-100 transition duration-500"></div>
-                        <img src="https://i.imgur.com/lCHaXz0.jpeg" alt="Foto de João Vitor" class="relative w-full h-auto rounded-xl shadow-2xl">
-                    </div>
-                    <div class="lg:col-span-3">
-                         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-                            <div class="card-hover bg-slate-800/50 p-6 rounded-xl text-center border border-slate-700">
-                                <p class="text-3xl font-bold text-white">70+</p><p class="text-sm text-slate-400">Projetos Concluídos</p>
-                            </div>
-                            <div class="card-hover bg-slate-800/50 p-6 rounded-xl text-center border border-slate-700">
-                                <p class="text-3xl font-bold text-white">45+</p><p class="text-sm text-slate-400">Clientes Satisfeitos</p>
-                            </div>
-                            <div class="card-hover bg-slate-800/50 p-6 rounded-xl text-center border border-slate-700">
-                                <p class="text-3xl font-bold text-white">5+</p><p class="text-sm text-slate-400">Anos de Experiência</p>
-                            </div>
-                             <div class="card-hover bg-slate-800/50 p-6 rounded-xl text-center border border-slate-700">
-                                <p class="text-3xl font-bold text-white">100%</p><p class="text-sm text-slate-400">Paixão por Design</p>
-                            </div>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-6">Meus Serviços:</h3>
-                         <div class="flex flex-wrap gap-4">
-                            <span class="flex items-center gap-3 bg-slate-800 px-4 py-2 rounded-full"><span class="h-3 w-3 rounded-full bg-gradient-to-r from-orange-500 to-red-500"></span>Social Media</span>
-                            <span class="flex items-center gap-3 bg-slate-800 px-4 py-2 rounded-full"><span class="h-3 w-3 rounded-full bg-gradient-to-r from-orange-500 to-red-500"></span>Criação de Logo</span>
-                            <span class="flex items-center gap-3 bg-slate-800 px-4 py-2 rounded-full"><span class="h-3 w-3 rounded-full bg-gradient-to-r from-orange-500 to-red-500"></span>Arte & Ilustração</span>
-                            <span class="flex items-center gap-3 bg-slate-800 px-4 py-2 rounded-full"><span class="h-3 w-3 rounded-full bg-gradient-to-r from-orange-500 to-red-500"></span>Pacote de Artes</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="portfolio" class="py-24 sm:py-32">
-             <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl md:text-5xl font-black tracking-tighter gradient-text">Projetos Que Falam Por Si</h2>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="card-hover rounded-xl overflow-hidden group"><img src="https://i.imgur.com/iYJ6AgD.jpeg" alt="Projeto 1" class="w-full h-full object-cover aspect-square transition-transform duration-500 group-hover:scale-110"></div>
-                    <div class="card-hover rounded-xl overflow-hidden group"><img src="https://i.imgur.com/GEVN7UF.jpeg" alt="Projeto 2" class="w-full h-full object-cover aspect-square transition-transform duration-500 group-hover:scale-110"></div>
-                    <div class="card-hover rounded-xl overflow-hidden group"><img src="https://i.imgur.com/o37coK9.jpeg" alt="Projeto 3" class="w-full h-full object-cover aspect-square transition-transform duration-500 group-hover:scale-110"></div>
-                    <div class="card-hover rounded-xl overflow-hidden group"><img src="https://i.imgur.com/eqLfbnu.jpeg" alt="Projeto 4" class="w-full h-full object-cover aspect-square transition-transform duration-500 group-hover:scale-110"></div>
-                    <div class="card-hover rounded-xl overflow-hidden group"><img src="https://i.imgur.com/w36qxMf.jpeg" alt="Projeto 5" class="w-full h-full object-cover aspect-square transition-transform duration-500 group-hover:scale-110"></div>
-                    <div class="card-hover rounded-xl overflow-hidden group"><img src="https://i.imgur.com/K1EtQPJ.jpeg" alt="Projeto 6" class="w-full h-full object-cover aspect-square transition-transform duration-500 group-hover:scale-110"></div>
-                </div>
-             </div>
-        </section>
-        
-        <section id="inspiracoes" class="py-24 sm:py-32 bg-slate-900">
-             <div class="container mx-auto px-6">
-                 <div class="text-center mb-12">
-                    <h2 class="text-4xl md:text-5xl font-black tracking-tighter gradient-text">Minhas Inspirações</h2>
-                     <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-400">Um vislumbre do meu processo criativo e inspirações. Veja mais em <a href="https://instagram.com/jv.criativo" target="_blank" rel="noopener noreferrer" class="font-bold text-orange-400 hover:underline">@jv.criativo</a>.</p>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                     <a href="https://www.instagram.com/jv.criativo/" target="_blank" class="card-hover rounded-xl overflow-hidden group relative block">
-                        <img src="https://i.imgur.com/i9ytrVD.jpeg" alt="Inspiração 1" class="w-full h-full object-cover aspect-video transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end">
-                            <p class="text-white text-sm">Explorando novas texturas e formas no design de embalagens. #packagingdesign #inovacao</p>
-                            <div class="flex items-center gap-4 mt-2 text-white font-bold text-sm"><span class="flex items-center gap-1">❤️ 125</span> <span class="flex items-center gap-1">💬 12</span></div>
-                        </div>
-                     </a>
-                      <a href="https://www.instagram.com/jv.criativo/" target="_blank" class="card-hover rounded-xl overflow-hidden group relative block">
-                        <img src="https://i.imgur.com/o37coK9.jpeg" alt="Inspiração 2" class="w-full h-full object-cover aspect-video transition-transform duration-500 group-hover:scale-110">
-                         <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end">
-                            <p class="text-white text-sm">Estudo de cores e tipografia para um novo projeto de branding. #branding #designgrafico</p>
-                             <div class="flex items-center gap-4 mt-2 text-white font-bold text-sm"><span class="flex items-center gap-1">❤️ 210</span> <span class="flex items-center gap-1">💬 34</span></div>
-                        </div>
-                     </a>
-                      <a href="https://www.instagram.com/jv.criativo/" target="_blank" class="card-hover rounded-xl overflow-hidden group relative block">
-                        <img src="https://i.imgur.com/iYJ6AgD.jpeg" alt="Inspiração 3" class="w-full h-full object-cover aspect-video transition-transform duration-500 group-hover:scale-110">
-                         <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end">
-                            <p class="text-white text-sm">Bastidores da criação de uma identidade visual completa. #logo #designprocess</p>
-                             <div class="flex items-center gap-4 mt-2 text-white font-bold text-sm"><span class="flex items-center gap-1">❤️ 188</span> <span class="flex items-center gap-1">💬 21</span></div>
-                        </div>
-                     </a>
-                </div>
-             </div>
-        </section>
-
-        <section id="contato" class="py-24 sm:py-32">
-             <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl md:text-5xl font-black tracking-tighter gradient-text">Vamos Criar Algo Incrível Juntos?</h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-400">
-                        Pronto para começar? Preencha o briefing detalhado do seu projeto ou, se preferir, envie uma mensagem rápida abaixo.
-                    </p>
-                    <a href="briefing.html" class="mt-8 inline-block px-10 py-4 bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold rounded-lg shadow-lg hover:shadow-orange-500/50 transition-all duration-300 transform hover:scale-105">
-                        Preencher Briefing Detalhado
-                    </a>
-                </div>
-                <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 bg-slate-900 border border-slate-800 p-8 rounded-xl">
-                    <div class="flex flex-col justify-center gap-6">
-                         <div>
-                            <h3 class="font-bold text-lg text-white">Mensagem Rápida</h3>
-                            <p class="text-slate-500 text-sm mb-4">Para dúvidas ou um primeiro contato.</p>
-                        </div>
-                          <div>
-                            <h3 class="font-bold text-lg text-white">Email</h3>
-                            <a href="mailto:cvitorsp@gmail.com" class="text-slate-400 hover:text-orange-400 transition-colors">cvitorsp@gmail.com</a>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-lg text-white">WhatsApp</h3>
-                            <a href="https://wa.me/5511915622409" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-orange-400 transition-colors">(11) 91562-2409</a>
-                        </div>
-                         <div>
-                            <h3 class="font-bold text-lg text-white">Instagram</h3>
-                            <a href="https://instagram.com/jv.criativo" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-orange-400 transition-colors">@jv.criativo</a>
-                        </div>
-                    </div>
-                     <form id="contact-form" action="https://formsubmit.co/cvitorsp@gmail.com" method="POST">
-                        <input type="text" name="name" placeholder="Seu Nome" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 mb-4 focus:ring-2 focus:ring-orange-500 outline-none">
-                        <input type="email" name="email" placeholder="Seu Email" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 mb-4 focus:ring-2 focus:ring-orange-500 outline-none">
-                        <input type="tel" name="whatsapp" placeholder="Seu WhatsApp (Opcional)" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 mb-4 focus:ring-2 focus:ring-orange-500 outline-none">
-                        <textarea name="message" placeholder="Sua Mensagem" required rows="4" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 mb-4 focus:ring-2 focus:ring-orange-500 outline-none resize-none"></textarea>
-                        
-                        <input type="hidden" name="_next" value="https://cvitorsp.github.io/vitor"> <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_subject" value="Novo Contato do Portfólio!">
-
-                        <button type="submit" class="w-full p-3 bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold rounded-lg hover:opacity-90 transition-opacity">Enviar Mensagem</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-    </main>
-    
-    <footer class="bg-slate-900 border-t border-slate-800 pt-16 pb-8 px-6">
-        <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-            <div>
-                <a href="#inicio" class="flex items-center justify-center md:justify-start gap-3 mb-4">
-                     <img src="https://i.imgur.com/N7Pua0N.png" alt="JV.Criativo Logo" class="h-10"/>
-                     <span class="text-slate-100 font-bold text-xl">JV.Criativo</span>
+            
+            <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[1.1] tracking-tighter mb-6 reveal">
+                CRIATIVIDADE <br>
+                <span class="text-gradient">SEM LIMITES.</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 reveal font-light leading-relaxed">
+                Elevamos marcas ao topo através de web design imersivo, bots customizados para Discord e direção de arte excepcional.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-6 reveal">
+                <a href="#cases" class="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors w-full sm:w-auto hover-trigger">
+                    Ver Estudos de Caso
                 </a>
-                 <p class="text-slate-400 text-sm max-w-xs mx-auto md:mx-0">Elevando marcas com design criativo, estratégico e impactante.</p>
-            </div>
-             <div>
-                <h3 class="font-bold text-white mb-4">Navegação Rápida</h3>
-                <nav class="flex flex-col space-y-2">
-                     <a href="#inicio" class="text-slate-400 hover:text-orange-400 transition-colors text-sm">Início</a>
-                     <a href="#sobre" class="text-slate-400 hover:text-orange-400 transition-colors text-sm">Sobre Mim</a>
-                     <a href="#portfolio" class="text-slate-400 hover:text-orange-400 transition-colors text-sm">Portfólio</a>
-                     <a href="#contato" class="text-slate-400 hover:text-orange-400 transition-colors text-sm">Contato</a>
-                </nav>
-            </div>
-             <div>
-                 <h3 class="font-bold text-white mb-4">Conecte-se</h3>
-                 <div class="flex justify-center md:justify-start gap-4 mb-4">
-                     <a href="https://instagram.com/jv.criativo" target="_blank" class="text-slate-400 hover:text-orange-400"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
-                </div>
-                 <a href="mailto:cvitorsp@gmail.com" class="block text-slate-400 hover:text-orange-400 transition-colors text-sm">cvitorsp@gmail.com</a>
-                 <a href="https://wa.me/5511915622409" target="_blank" class="block text-slate-400 hover:text-orange-400 transition-colors text-sm">(11) 91562-2409</a>
+                <a href="#contato" class="px-8 py-4 glass text-white font-bold rounded-full hover:bg-white/10 transition-colors w-full sm:w-auto flex items-center justify-center gap-2 hover-trigger">
+                    Falar com João
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </a>
             </div>
         </div>
-        <div class="container mx-auto text-center border-t border-slate-800 mt-8 pt-6">
-             <p class="text-slate-500 text-sm">© 2025 JV.Criativo. Todos os direitos reservados. Desenvolvido com ❤️ e muito café..</p>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
+            <span class="text-xs uppercase tracking-widest">Scroll</span>
+            <div class="w-[1px] h-12 bg-gradient-to-b from-white to-transparent"></div>
+        </div>
+    </section>
+
+    <!-- MARQUEE INFINITO -->
+    <div class="py-10 border-y border-dark-700 bg-dark-800/50 backdrop-blur-sm marquee-wrapper rotate-[-2deg] scale-110 relative z-20">
+        <div class="marquee-content font-display text-4xl md:text-6xl font-black text-dark-600 uppercase tracking-wider flex gap-12">
+            <span>Web Design</span>
+            <span class="text-brand-500">•</span>
+            <span>Discord Bots</span>
+            <span class="text-brand-500">•</span>
+            <span>Pixel Art Habbo</span>
+            <span class="text-brand-500">•</span>
+            <span>Identidade Visual</span>
+            <span class="text-brand-500">•</span>
+            <span>Web Design</span>
+            <span class="text-brand-500">•</span>
+            <span>Discord Bots</span>
+            <span class="text-brand-500">•</span>
+            <span>Pixel Art Habbo</span>
+        </div>
+    </div>
+
+    <!-- FEATURED CASE STUDIES (JORNAL R1 & KOZINHAS) -->
+    <section id="cases" class="py-32 relative">
+        <div class="container mx-auto px-6">
+            <div class="mb-20 reveal">
+                <h2 class="font-display text-4xl md:text-6xl font-bold text-white mb-4">Estudos de <span class="text-gradient">Caso</span></h2>
+                <p class="text-gray-400 text-lg">Projetos reais entregues com alta performance e design impecável.</p>
+            </div>
+
+            <!-- CASE 1: JORNAL R1 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32 reveal">
+                <div class="order-2 lg:order-1">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="px-3 py-1 bg-brand-500/20 text-brand-500 text-xs font-bold uppercase tracking-wider rounded-full border border-brand-500/30">Portal de Notícias</span>
+                        <span class="px-3 py-1 bg-dark-700 text-gray-300 text-xs font-bold uppercase tracking-wider rounded-full border border-dark-600">UI/UX Design</span>
+                    </div>
+                    <h3 class="font-display text-5xl font-bold text-white mb-6">Jornal R1</h3>
+                    <p class="text-gray-400 text-lg mb-8 leading-relaxed">
+                        Desenvolvimento completo de interface para um portal de notícias moderno. O foco foi criar uma arquitetura de informação limpa, com leitura confortável e alta velocidade de carregamento, permitindo que a notícia seja sempre a protagonista.
+                    </p>
+                    <ul class="space-y-4 mb-10 text-gray-300">
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Layout Totalmente Responsivo</li>
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Tipografia Otimizada para Leitura</li>
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Sistema de Grids para Matérias</li>
+                    </ul>
+                    <a href="https://www.jornalr1.com/" target="_blank" class="inline-flex items-center gap-2 px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-full transition-all hover-trigger">
+                        Visitar Website Vivo <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </a>
+                </div>
+                
+                <!-- Custom CSS Device Presentation -->
+                <div class="order-1 lg:order-2 relative w-full flex justify-end tilt-wrapper hover-trigger">
+                    <div class="tilt-element relative w-full max-w-[600px]">
+                        <!-- MacBook Mockup -->
+                        <div class="macbook-mockup">
+                            <div class="scroll-img-container">
+                                <img src="https://i.imgur.com/HHEUaXB.png" alt="Jornal R1 Desktop" class="w-full h-auto">
+                            </div>
+                        </div>
+                        <!-- Floating iPhone Mockup -->
+                        <div class="iphone-mockup absolute -bottom-10 -left-10 transform scale-75 md:scale-90 border-dark-800 hidden md:block">
+                            <div class="scroll-img-container">
+                                <img src="https://i.imgur.com/ReqkuY6.png" alt="Jornal R1 Mobile" class="w-full h-auto">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CASE 2: EMPRESA KOZINHAS -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center reveal mt-32">
+                <!-- Custom CSS Device Presentation (Left Side this time) -->
+                <div class="relative w-full flex justify-start tilt-wrapper hover-trigger">
+                    <div class="tilt-element relative w-full max-w-[600px]">
+                        <div class="macbook-mockup">
+                            <div class="scroll-img-container">
+                                <img src="https://i.imgur.com/V6HqkVp.png" alt="Kozinhas Desktop" class="w-full h-auto">
+                            </div>
+                        </div>
+                        <!-- Floating Image Element -->
+                        <img src="https://i.imgur.com/3CmxSSx.png" alt="Kozinhas Detalhe" class="absolute -bottom-5 -right-5 w-48 rounded-xl shadow-2xl border border-dark-700 hidden md:block" />
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="px-3 py-1 bg-red-500/20 text-red-500 text-xs font-bold uppercase tracking-wider rounded-full border border-red-500/30">Landing Page</span>
+                        <span class="px-3 py-1 bg-dark-700 text-gray-300 text-xs font-bold uppercase tracking-wider rounded-full border border-dark-600">Corporativo</span>
+                    </div>
+                    <h3 class="font-display text-5xl font-bold text-white mb-6">Kozinhas</h3>
+                    <p class="text-gray-400 text-lg mb-8 leading-relaxed">
+                        Criação de Landing Page focada em conversão para a empresa Kozinhas. Design clean, sofisticado e alinhado com a identidade visual da marca para demonstrar qualidade, confiança e captar leads qualificados.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6 mb-10">
+                        <div class="glass p-4 rounded-xl">
+                            <h4 class="text-white font-bold mb-1">Visual Clean</h4>
+                            <p class="text-sm text-gray-500">Uso de espaços em branco e fotografia premium.</p>
+                        </div>
+                        <div class="glass p-4 rounded-xl">
+                            <h4 class="text-white font-bold mb-1">Foco em Leads</h4>
+                            <p class="text-sm text-gray-500">CTAs estratégicos em toda a jornada do usuário.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MEGA PORTFOLIO GRID -->
+    <section id="portfolio" class="py-24 bg-dark-800">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 reveal">
+                <div>
+                    <h2 class="font-display text-4xl md:text-6xl font-bold text-white mb-4">Acervo <span class="text-gradient">Criativo</span></h2>
+                    <p class="text-gray-400 text-lg">Clique em qualquer imagem para expandir.</p>
+                </div>
+                
+                <!-- Filter Buttons -->
+                <div class="flex flex-wrap gap-3" id="filters">
+                    <button class="filter-btn active px-5 py-2.5 rounded-full glass border-brand-500 text-white font-medium text-sm hover-trigger" data-filter="all">Todos</button>
+                    <button class="filter-btn px-5 py-2.5 rounded-full glass hover:border-brand-500 text-gray-400 font-medium text-sm transition-colors hover-trigger" data-filter="habbo">Habbo & Pixel</button>
+                    <button class="filter-btn px-5 py-2.5 rounded-full glass hover:border-brand-500 text-gray-400 font-medium text-sm transition-colors hover-trigger" data-filter="real">Design Real</button>
+                    <button class="filter-btn px-5 py-2.5 rounded-full glass hover:border-brand-500 text-gray-400 font-medium text-sm transition-colors hover-trigger" data-filter="web">Web & Outros</button>
+                </div>
+            </div>
+
+            <!-- BENTO STYLE MASONRY GRID -->
+            <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6" id="gallery">
+                
+                <!-- HABBO IMAGES -->
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="habbo" onclick="openLightbox('https://i.imgur.com/SN9tOaO.jpeg', 'Projeto Habbo - Arte 1')">
+                    <img src="https://i.imgur.com/SN9tOaO.jpeg" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Habbo">
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass">Ampliar</span>
+                    </div>
+                </div>
+                
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="habbo" onclick="openLightbox('https://i.imgur.com/M1XP0yT.png', 'Projeto Habbo - Interface')">
+                    <img src="https://i.imgur.com/M1XP0yT.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Habbo UI">
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass">Ampliar</span></div>
+                </div>
+
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="habbo" onclick="openLightbox('https://i.imgur.com/K1EtQPJ.jpeg', 'Projeto Habbo - Isométrico')">
+                    <img src="https://i.imgur.com/K1EtQPJ.jpeg" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Habbo Iso">
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass">Ampliar</span></div>
+                </div>
+
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="habbo" onclick="openLightbox('https://i.imgur.com/zENCuis.png', 'Projeto Habbo - Assets')">
+                    <img src="https://i.imgur.com/zENCuis.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Habbo Assets">
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass">Ampliar</span></div>
+                </div>
+                
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="habbo" onclick="openLightbox('https://i.imgur.com/iYJ6AgD.jpeg', 'Projeto Habbo - Cena')">
+                    <img src="https://i.imgur.com/iYJ6AgD.jpeg" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Habbo Scene">
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass">Ampliar</span></div>
+                </div>
+
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="habbo" onclick="openLightbox('https://i.imgur.com/o37coK9.jpeg', 'Projeto Habbo - Detalhes')">
+                    <img src="https://i.imgur.com/o37coK9.jpeg" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Habbo Detalhes">
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass">Ampliar</span></div>
+                </div>
+
+                <!-- REAL LIFE / DESIGN GERAL -->
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="real" onclick="openLightbox('https://i.imgur.com/tWM80dP.jpeg', 'Composição - Vida Real')">
+                    <img src="https://i.imgur.com/tWM80dP.jpeg" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Real 1">
+                    <div class="absolute inset-0 bg-brand-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center">
+                        <span class="text-brand-100 font-bold text-lg mb-2">Composição Visual</span>
+                        <span class="text-white border border-white/30 px-4 py-1 rounded-full text-xs">Ver Arte</span>
+                    </div>
+                </div>
+
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="real" onclick="openLightbox('https://i.imgur.com/eqLfbnu.jpeg', 'Estudo de Iluminação')">
+                    <img src="https://i.imgur.com/eqLfbnu.jpeg" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Real 2">
+                    <div class="absolute inset-0 bg-brand-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-lg mb-2">Arte Gráfica</span></div>
+                </div>
+
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="real" onclick="openLightbox('https://i.imgur.com/GkrIKDT.png', 'Manipulação de Imagem')">
+                    <img src="https://i.imgur.com/GkrIKDT.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Real 3">
+                    <div class="absolute inset-0 bg-brand-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-lg mb-2">Manipulação</span></div>
+                </div>
+                
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="real" onclick="openLightbox('https://i.imgur.com/9VQsJqF.png', 'Conceito Visual')">
+                    <img src="https://i.imgur.com/9VQsJqF.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Real 4">
+                    <div class="absolute inset-0 bg-brand-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-lg mb-2">Conceito Visual</span></div>
+                </div>
+
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="real" onclick="openLightbox('https://i.imgur.com/udzhEOh.png', 'Peça Publicitária')">
+                    <img src="https://i.imgur.com/udzhEOh.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Real 5">
+                    <div class="absolute inset-0 bg-brand-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-lg mb-2">Publicidade</span></div>
+                </div>
+
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="real" onclick="openLightbox('https://i.imgur.com/XoBdX1d.png', 'Tipografia e Cor')">
+                    <img src="https://i.imgur.com/XoBdX1d.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Real 6">
+                    <div class="absolute inset-0 bg-brand-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-lg mb-2">Tipografia & Cor</span></div>
+                </div>
+
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="real" onclick="openLightbox('https://i.imgur.com/MbqXPM0.png', 'Social Media Design')">
+                    <img src="https://i.imgur.com/MbqXPM0.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Real 7">
+                    <div class="absolute inset-0 bg-brand-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-lg mb-2">Social Media</span></div>
+                </div>
+
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="real" onclick="openLightbox('https://i.imgur.com/JtvV1SN.png', 'Branding')">
+                    <img src="https://i.imgur.com/JtvV1SN.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Real 8">
+                    <div class="absolute inset-0 bg-brand-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center"><span class="text-brand-100 font-bold text-lg mb-2">Branding</span></div>
+                </div>
+
+                <!-- WEB E OUTROS -->
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="web" onclick="openLightbox('https://i.imgur.com/4mYqKAX.png', 'Jornal R1 - Detalhe Mobile')">
+                    <img src="https://i.imgur.com/4mYqKAX.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Jornal Mobile">
+                    <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass">Web</span></div>
+                </div>
+
+                <div class="grid-item relative rounded-2xl overflow-hidden group hover-trigger cursor-pointer" data-category="web" onclick="openLightbox('https://i.imgur.com/j5YVj4I.png', 'Kozinhas - Interface Secundária')">
+                    <img src="https://i.imgur.com/j5YVj4I.png" class="w-full h-auto transition-transform duration-700 group-hover:scale-105" alt="Kozinha UI">
+                    <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white font-bold border border-white/30 px-6 py-2 rounded-full glass">Web</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DISCORD BOTS SECTION (DARKER TECH THEME) -->
+    <section id="bots" class="py-32 relative bg-dark-900 overflow-hidden border-t border-dark-700">
+        <!-- Decoration -->
+        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 mb-6">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>
+                    <span class="text-sm font-bold tracking-widest uppercase">Discord Development</span>
+                </div>
+                <h2 class="font-display text-4xl md:text-6xl font-bold text-white mb-6">Bots Personalizados para <span class="text-indigo-500">Comunidades</span></h2>
+                <p class="text-gray-400 text-lg">Desenvolvimento de sistemas robustos e interfaces customizadas para elevar o nível da gestão do seu servidor Discord.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 reveal">
+                <!-- Bot Item 1 -->
+                <div class="bg-dark-800 border border-dark-700 rounded-2xl overflow-hidden hover-trigger tilt-wrapper cursor-pointer" onclick="openLightbox('https://i.imgur.com/WuLuosg.png', 'Interface de Configuração do Bot')">
+                    <div class="tilt-element">
+                        <div class="h-48 overflow-hidden bg-dark-900 p-4">
+                            <img src="https://i.imgur.com/WuLuosg.png" class="w-full h-full object-contain rounded-lg" alt="Bot Image 1">
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-white font-bold mb-2">Painel de Setup</h4>
+                            <p class="text-gray-500 text-sm">Interface elegante para configuração rápida.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Bot Item 2 -->
+                <div class="bg-dark-800 border border-dark-700 rounded-2xl overflow-hidden hover-trigger tilt-wrapper cursor-pointer" onclick="openLightbox('https://i.imgur.com/nKB6gse.png', 'Sistema de Moderação')">
+                    <div class="tilt-element">
+                        <div class="h-48 overflow-hidden bg-dark-900 p-4">
+                            <img src="https://i.imgur.com/nKB6gse.png" class="w-full h-full object-contain rounded-lg" alt="Bot Image 2">
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-white font-bold mb-2">Moderação Automática</h4>
+                            <p class="text-gray-500 text-sm">Sistemas complexos de logs e punições.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Bot Item 3 -->
+                <div class="bg-dark-800 border border-dark-700 rounded-2xl overflow-hidden hover-trigger tilt-wrapper cursor-pointer" onclick="openLightbox('https://i.imgur.com/fZc4B56.png', 'Economia e Leveling')">
+                    <div class="tilt-element">
+                        <div class="h-48 overflow-hidden bg-dark-900 p-4">
+                            <img src="https://i.imgur.com/fZc4B56.png" class="w-full h-full object-contain rounded-lg" alt="Bot Image 3">
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-white font-bold mb-2">Sistema Econômico</h4>
+                            <p class="text-gray-500 text-sm">Gamificação completa para engajar membros.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Bot Item 4 -->
+                <div class="bg-dark-800 border border-dark-700 rounded-2xl overflow-hidden hover-trigger tilt-wrapper cursor-pointer" onclick="openLightbox('https://i.imgur.com/5Gtd5zL.png', 'Logs Integrados')">
+                    <div class="tilt-element">
+                        <div class="h-48 overflow-hidden bg-dark-900 p-4">
+                            <img src="https://i.imgur.com/5Gtd5zL.png" class="w-full h-full object-contain rounded-lg" alt="Bot Image 4">
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-white font-bold mb-2">Logs Profissionais</h4>
+                            <p class="text-gray-500 text-sm">Monitoramento 24/7 com design limpo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BENTO GRID: SOBRE O ARTISTA -->
+    <section id="sobre" class="py-32">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-display text-4xl md:text-6xl font-bold text-white mb-4">A Mente <span class="text-gradient">Criativa</span></h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto reveal">
+                
+                <!-- Foto Card (Span 2) -->
+                <div class="md:col-span-2 md:row-span-2 glass rounded-3xl p-2 relative overflow-hidden group hover-trigger">
+                    <div class="absolute inset-0 bg-brand-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 mix-blend-overlay"></div>
+                    <img src="https://i.imgur.com/lCHaXz0.jpeg" alt="João Vitor" class="w-full h-full object-cover rounded-[20px] grayscale-[50%] group-hover:grayscale-0 transition-all duration-700 filter">
+                    <div class="absolute bottom-6 left-6 z-20">
+                        <div class="glass px-4 py-2 rounded-full inline-block">
+                            <span class="text-white font-bold">João Vitor, 22</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- XP Card -->
+                <div class="glass rounded-3xl p-8 flex flex-col justify-center items-center text-center hover-trigger border border-dark-600 hover:border-brand-500 transition-colors">
+                    <span class="text-6xl font-display font-black text-white mb-2">5+</span>
+                    <span class="text-gray-400 font-medium">Anos de Experiência</span>
+                </div>
+
+                <!-- Projects Card -->
+                <div class="glass rounded-3xl p-8 flex flex-col justify-center items-center text-center hover-trigger border border-dark-600 hover:border-brand-500 transition-colors">
+                    <span class="text-6xl font-display font-black text-white mb-2">70+</span>
+                    <span class="text-gray-400 font-medium">Projetos Lançados</span>
+                </div>
+
+                <!-- Bio Card (Span 2) -->
+                <div class="md:col-span-2 glass rounded-3xl p-8 hover-trigger border border-dark-600 hover:border-brand-500 transition-colors flex flex-col justify-center">
+                    <h3 class="text-2xl font-bold text-white mb-4">Design & Código em Sintonia</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        Acredito que o design não deve apenas ser bonito, ele tem que funcionar e converter. Uno minha expertise em criação visual avançada (incluindo Pixel Art e Identidade) à lógica da programação web e desenvolvimento de bots. O resultado? Ecossistemas digitais que deixam a concorrência para trás.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- MEGA CONTACT SECTION -->
+    <section id="contato" class="py-32 relative bg-dark-900 border-t border-dark-700 overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvc3ZnPg==')] opacity-50"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-5xl mx-auto glass rounded-[40px] p-8 md:p-16 border border-dark-600 shadow-2xl reveal">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                    
+                    <div>
+                        <h2 class="font-display text-4xl md:text-5xl font-black text-white mb-6">Pronto para iniciar <br> o <span class="text-gradient">Próximo Nível?</span></h2>
+                        <p class="text-gray-400 mb-10 text-lg">
+                            Seja uma marca nova, um site revolucionário ou um bot exclusivo. Me conte a sua ideia.
+                        </p>
+                        
+                        <div class="space-y-8">
+                            <a href="mailto:cvitorsp@gmail.com" class="flex items-center gap-6 group hover-trigger w-max">
+                                <div class="w-14 h-14 rounded-full border border-dark-600 flex items-center justify-center text-brand-500 group-hover:bg-brand-500 group-hover:text-white transition-all duration-300">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 uppercase tracking-widest font-bold">Envie um E-mail</p>
+                                    <p class="text-xl text-white font-medium group-hover:text-brand-400 transition-colors">cvitorsp@gmail.com</p>
+                                </div>
+                            </a>
+
+                            <a href="https://wa.me/5511915622409" target="_blank" class="flex items-center gap-6 group hover-trigger w-max">
+                                <div class="w-14 h-14 rounded-full border border-dark-600 flex items-center justify-center text-brand-500 group-hover:bg-brand-500 group-hover:text-white transition-all duration-300">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 uppercase tracking-widest font-bold">Fale no WhatsApp</p>
+                                    <p class="text-xl text-white font-medium group-hover:text-brand-400 transition-colors">(11) 91562-2409</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Formulário Premium -->
+                    <div>
+                        <form id="contact-form" action="https://formsubmit.co/cvitorsp@gmail.com" method="POST" class="space-y-6">
+                            <div class="relative group">
+                                <input type="text" name="name" required id="name" class="w-full bg-transparent border-b-2 border-dark-600 focus:border-brand-500 text-white pt-6 pb-2 outline-none transition-colors peer" placeholder=" ">
+                                <label for="name" class="absolute left-0 top-4 text-gray-500 text-lg transition-all peer-focus:text-xs peer-focus:-top-2 peer-focus:text-brand-500 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:-top-2 uppercase font-bold tracking-wider pointer-events-none">Seu Nome</label>
+                            </div>
+                            
+                            <div class="relative group">
+                                <input type="email" name="email" required id="email" class="w-full bg-transparent border-b-2 border-dark-600 focus:border-brand-500 text-white pt-6 pb-2 outline-none transition-colors peer" placeholder=" ">
+                                <label for="email" class="absolute left-0 top-4 text-gray-500 text-lg transition-all peer-focus:text-xs peer-focus:-top-2 peer-focus:text-brand-500 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:-top-2 uppercase font-bold tracking-wider pointer-events-none">Seu E-mail</label>
+                            </div>
+
+                            <div class="relative group">
+                                <textarea name="message" required id="message" rows="4" class="w-full bg-transparent border-b-2 border-dark-600 focus:border-brand-500 text-white pt-6 pb-2 outline-none transition-colors peer resize-none" placeholder=" "></textarea>
+                                <label for="message" class="absolute left-0 top-4 text-gray-500 text-lg transition-all peer-focus:text-xs peer-focus:-top-2 peer-focus:text-brand-500 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:-top-2 uppercase font-bold tracking-wider pointer-events-none">Conte sobre o Projeto</label>
+                            </div>
+
+                            <input type="hidden" name="_next" value="https://cvitorsp.github.io/vitor"> 
+                            <input type="hidden" name="_captcha" value="false">
+
+                            <button type="submit" class="w-full py-4 bg-white text-black font-bold rounded-full hover:bg-brand-500 hover:text-white transition-all duration-300 transform hover:-translate-y-1 mt-4 hover-trigger">
+                                Enviar Mensagem
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MEGA FOOTER -->
+    <footer class="bg-[#020202] pt-20 pb-10 border-t border-dark-800">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-16">
+                <a href="#inicio" class="flex items-center gap-3 hover-trigger mb-8 md:mb-0">
+                    <img src="https://i.imgur.com/N7Pua0N.png" class="w-12 h-12" alt="Logo">
+                    <span class="font-display font-bold text-3xl text-white">JV.Criativo</span>
+                </a>
+                <div class="flex items-center gap-6">
+                    <a href="https://instagram.com/jv.criativo" target="_blank" class="w-12 h-12 rounded-full glass flex items-center justify-center text-white hover:bg-brand-500 transition-colors hover-trigger">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="text-center md:text-left border-t border-dark-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+                <p>© 2026 JV.Criativo. Todos os direitos reservados.</p>
+                <p class="mt-2 md:mt-0">Design & Code by João Vitor</p>
+            </div>
         </div>
     </footer>
 
-    <a href="#inicio" id="scroll-to-top" class="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-orange-500 text-white shadow-lg hidden transition-opacity">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" /></svg>
-    </a>
-    
-    <div id="toast" class="toast-notification fixed bottom-10 right-10 z-[100] p-4 rounded-lg shadow-2xl bg-green-600 text-white opacity-0 transform translate-y-10">
-        Mensagem enviada com sucesso!
+    <!-- LIGHTBOX MODAL (ESCONDIDO) -->
+    <div id="lightbox" class="fixed inset-0 z-[100000] bg-black/95 hidden flex-col items-center justify-center p-4">
+        <button id="close-lightbox" class="absolute top-6 right-6 text-white hover:text-brand-500 transition-colors">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <img id="lightbox-img" src="" alt="Ampliado" class="rounded-lg max-h-[85vh] w-auto object-contain">
+        <p id="lightbox-caption" class="text-white font-display text-2xl font-bold mt-6 text-center"></p>
     </div>
 
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-10 right-10 z-[100] p-4 rounded-xl glass border-brand-500 text-white opacity-0 transform translate-y-10 transition-all duration-500 flex items-center gap-4">
+        <div class="bg-brand-500 p-2 rounded-full text-white">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        </div>
+        <div>
+            <p class="font-bold text-sm">Mensagem Voando!</p>
+            <p class="text-xs text-gray-400">Em breve entrarei em contato.</p>
+        </div>
+    </div>
+
+    <!-- SCRIPTS MÁGICOS -->
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', () => {
 
-        // --- Preloader ---
-        const preloader = document.getElementById('preloader');
-        const preloaderBar = document.getElementById('preloader-bar');
-        let progress = 0;
-        const interval = setInterval(() => {
-            progress += 10;
-            preloaderBar.style.width = progress + '%';
-            if (progress >= 100) {
-                clearInterval(interval);
-                setTimeout(() => {
-                    preloader.style.opacity = '0';
-                    setTimeout(() => preloader.style.display = 'none', 700);
-                }, 500);
+            // --- 1. PRELOADER CINEMÁTICO ---
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.transform = 'translateY(-100%)';
+                setTimeout(() => preloader.remove(), 1000);
+            }, 1500);
+
+            // --- 2. CURSOR PERSONALIZADO ---
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+            const hoverTriggers = document.querySelectorAll('.hover-trigger, a, button, input, textarea');
+
+            if(window.innerWidth > 768) {
+                window.addEventListener('mousemove', (e) => {
+                    const posX = e.clientX;
+                    const posY = e.clientY;
+                    
+                    cursorDot.style.left = `${posX}px`;
+                    cursorDot.style.top = `${posY}px`;
+                    
+                    // Delay para o outline
+                    cursorOutline.animate({
+                        left: `${posX}px`,
+                        top: `${posY}px`
+                    }, { duration: 500, fill: "forwards" });
+                });
+
+                hoverTriggers.forEach(trigger => {
+                    trigger.addEventListener('mouseenter', () => {
+                        document.body.classList.add('cursor-hover');
+                    });
+                    trigger.addEventListener('mouseleave', () => {
+                        document.body.classList.remove('cursor-hover');
+                    });
+                });
             }
-        }, 150);
 
-        // --- Navbar Scroll Effect ---
-        const navbar = document.getElementById('navbar');
-        const navbarLogo = document.getElementById('navbar-logo');
-        const navbarText = document.getElementById('navbar-text');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('bg-slate-900/80', 'backdrop-blur-lg', 'shadow-xl', 'h-20');
-                navbar.classList.remove('h-24');
-                navbarLogo.classList.add('h-10');
-                navbarLogo.classList.remove('h-12');
-                if (navbarText) {
-                    navbarText.classList.add('text-2xl');
-                    navbarText.classList.remove('text-3xl');
-                }
-            } else {
-                navbar.classList.remove('bg-slate-900/80', 'backdrop-blur-lg', 'shadow-xl', 'h-20');
-                navbar.classList.add('h-24');
-                navbarLogo.classList.remove('h-10');
-                navbarLogo.classList.add('h-12');
-                 if (navbarText) {
-                    navbarText.classList.remove('text-2xl');
-                    navbarText.classList.add('text-3xl');
-                 }
-            }
-        });
+            // --- 3. SCROLL REVEAL (INTERSECTION OBSERVER) ---
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
 
-        // --- Active Nav Link on Scroll ---
-        const sections = document.querySelectorAll('section');
-        const navLinks = document.querySelectorAll('#desktop-nav .nav-link');
-        const navLinksMobile = document.querySelectorAll('#mobile-menu .nav-link-mobile');
-        
-        function updateActiveLink() {
-            let index = sections.length;
-            while(--index && window.scrollY + 100 < sections[index].offsetTop) {}
-            
-            navLinks.forEach((link) => link.classList.remove('text-orange-400'));
-            if(navLinks[index]) navLinks[index].classList.add('text-orange-400');
-            
-            navLinksMobile.forEach((link) => link.classList.remove('bg-orange-500/20', 'text-orange-300'));
-            if(navLinksMobile[index]) navLinksMobile[index].classList.add('bg-orange-500/20', 'text-orange-300');
-        }
-        window.addEventListener('scroll', updateActiveLink);
-        updateActiveLink();
+            revealElements.forEach(el => revealObserver.observe(el));
 
-        // --- Mobile Menu Toggle ---
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const menuIconOpen = document.getElementById('menu-icon-open');
-        const menuIconClose = document.getElementById('menu-icon-close');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('-translate-y-full');
-            menuIconOpen.classList.toggle('hidden');
-            menuIconClose.classList.toggle('hidden');
-        });
-        
-        navLinksMobile.forEach(link => {
-            link.addEventListener('click', () => {
-                 mobileMenu.classList.add('-translate-y-full');
-                 menuIconOpen.classList.remove('hidden');
-                 menuIconClose.classList.add('hidden');
-            });
-        });
-
-        // --- Scroll to Top Button ---
-        const scrollToTopBtn = document.getElementById('scroll-to-top');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                scrollToTopBtn.classList.remove('hidden');
-            } else {
-                scrollToTopBtn.classList.add('hidden');
-            }
-        });
-
-        // --- Contact Form ---
-        const contactForm = document.getElementById('contact-form');
-        const toast = document.getElementById('toast');
-        if (contactForm) {
-            contactForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const formData = new FormData(contactForm);
+            // --- 4. TILT 3D EFFECT ---
+            const tiltElements = document.querySelectorAll('.tilt-wrapper');
+            tiltElements.forEach(wrapper => {
+                const element = wrapper.querySelector('.tilt-element');
+                wrapper.addEventListener('mousemove', (e) => {
+                    const rect = wrapper.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = ((y - centerY) / centerY) * -10; // Max 10 deg
+                    const rotateY = ((x - centerX) / centerX) * 10;
+                    
+                    element.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                });
                 
-                const nextUrl = contactForm.querySelector('input[name="_next"]');
-                if (nextUrl && location.hostname) {
-                     nextUrl.value = `https://${location.hostname}${location.pathname.replace('index.html', '')}`;
-                }
-
-                fetch(contactForm.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                })
-                .then(response => {
-                    if (response.ok) {
-                        toast.classList.remove('opacity-0', 'translate-y-10');
-                        setTimeout(() => {
-                            toast.classList.add('opacity-0', 'translate-y-10');
-                        }, 3000);
-                        contactForm.reset();
-                    } else {
-                         response.json().then(data => {
-                             if (data.error === "Enable reCAPTCHA") {
-                                 alert("Por favor, ative seu formulário. Verifique seu e-mail para a mensagem de ativação do FormSubmit.");
-                             } else {
-                                 alert('Ocorreu um erro ao enviar a mensagem. Tente novamente.');
-                             }
-                         });
-                    }
-                })
-                .catch(error => {
-                    alert('Ocorreu um erro ao enviar a mensagem. Tente novamente.');
-                    console.error('Fetch Error:', error);
+                wrapper.addEventListener('mouseleave', () => {
+                    element.style.transform = `rotateX(0deg) rotateY(0deg)`;
                 });
             });
-        }
 
-        // --- Hero Section Parallax Effect ---
-        const heroContent = document.getElementById('hero-content');
-        const decorativeShapes = document.querySelectorAll('.decorative-shape');
-        const heroSection = document.getElementById('inicio');
-        if (heroSection) {
-            heroSection.addEventListener('mousemove', (e) => {
-                const { clientX, clientY, currentTarget } = e;
-                const { offsetWidth, offsetHeight } = currentTarget;
-                const xPos = (clientX / offsetWidth - 0.5) * 2;
-                const yPos = (clientY / offsetHeight - 0.5) * 2;
+            // --- 5. NAVBAR GLASS EFFECT ---
+            const navbar = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('glass', 'py-4');
+                    navbar.classList.remove('py-6');
+                } else {
+                    navbar.classList.remove('glass', 'py-4');
+                    navbar.classList.add('py-6');
+                }
+            });
 
-                requestAnimationFrame(() => {
-                    if(heroContent) heroContent.style.transform = `translate(${xPos * -10}px, ${yPos * -10}px)`;
-                    decorativeShapes.forEach((shape, i) => {
-                        const speed = (i + 1) * 5;
-                        shape.style.transform = `translate(${xPos * speed}px, ${yPos * speed}px)`;
+            // --- 6. PORTFOLIO FILTER SYSTEM ---
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const gridItems = document.querySelectorAll('.grid-item');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => {
+                        b.classList.remove('active', 'border-brand-500', 'text-white');
+                        b.classList.add('text-gray-400');
+                    });
+                    
+                    btn.classList.add('active', 'border-brand-500', 'text-white');
+                    btn.classList.remove('text-gray-400');
+
+                    const filterValue = btn.getAttribute('data-filter');
+
+                    gridItems.forEach(item => {
+                        item.style.opacity = '0';
+                        item.style.transform = 'scale(0.8)';
+                        
+                        setTimeout(() => {
+                            if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                                item.classList.remove('hide');
+                                setTimeout(() => {
+                                    item.style.opacity = '1';
+                                    item.style.transform = 'scale(1)';
+                                }, 50);
+                            } else {
+                                item.classList.add('hide');
+                            }
+                        }, 300);
                     });
                 });
             });
-        }
-    });
-    </script>
 
+            // --- 7. LIGHTBOX / GALERIA TELA CHEIA ---
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            const closeBtn = document.getElementById('close-lightbox');
+
+            window.openLightbox = (src, caption) => {
+                lightboxImg.src = src;
+                lightboxCaption.textContent = caption;
+                lightbox.style.display = 'flex';
+                setTimeout(() => lightbox.style.opacity = '1', 10);
+                document.body.style.overflow = 'hidden'; // block scroll
+            };
+
+            const closeLightbox = () => {
+                lightbox.style.opacity = '0';
+                setTimeout(() => {
+                    lightbox.style.display = 'none';
+                    lightboxImg.src = '';
+                }, 300);
+                document.body.style.overflow = 'auto'; // restore scroll
+            };
+
+            closeBtn.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e) => {
+                if(e.target === lightbox) closeLightbox();
+            });
+
+            // --- 8. MOBILE MENU ---
+            const mobileBtn = document.getElementById('mobile-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('-translate-y-full');
+            });
+            
+            document.querySelectorAll('.nav-link-mobile').forEach(link => {
+                link.addEventListener('click', () => {
+                     mobileMenu.classList.add('-translate-y-full');
+                });
+            });
+
+            // --- HERO PARALLAX EFEITO ---
+            const heroSection = document.querySelector('section.min-h-screen');
+            const decorativeShapes = document.querySelectorAll('.decorative-shape');
+            
+            if (heroSection && window.innerWidth > 768) {
+                heroSection.addEventListener('mousemove', (e) => {
+                    const { clientX, clientY, currentTarget } = e;
+                    const { offsetWidth, offsetHeight } = currentTarget;
+                    const xPos = (clientX / offsetWidth - 0.5) * 2;
+                    const yPos = (clientY / offsetHeight - 0.5) * 2;
+
+                    requestAnimationFrame(() => {
+                        decorativeShapes.forEach((shape, i) => {
+                            const speed = (i + 1) * 15;
+                            shape.style.transform = `translate(${xPos * speed}px, ${yPos * speed}px)`;
+                        });
+                    });
+                });
+            }
+
+            // --- 9. CONTACT FORM AJAX ---
+            const contactForm = document.getElementById('contact-form');
+            const toast = document.getElementById('toast');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(contactForm);
+                    
+                    fetch(contactForm.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: { 'Accept': 'application/json' }
+                    }).then(response => {
+                        if (response.ok) {
+                            toast.classList.remove('opacity-0', 'translate-y-10');
+                            setTimeout(() => toast.classList.add('opacity-0', 'translate-y-10'), 4000);
+                            contactForm.reset();
+                        } else {
+                            alert('Erro. Chame no WhatsApp!');
+                        }
+                    }).catch(error => {
+                        alert('Erro de conexão.');
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>
